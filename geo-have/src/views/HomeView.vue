@@ -1,7 +1,7 @@
 <script setup>
-import Nav from '../components/Nav.vue'
+import Menu from '../components/Menu.vue'
 </script>
 
 <template>
-    <Nav />
+    <Menu />
 </template>
