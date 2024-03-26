@@ -18,6 +18,7 @@
 <script setup>
 import { ref } from "vue";
 import cover from "../assets/images/Cover.png";
+import stag from "../assets/fonts/stag_regular.ttf";
 
 // Props
 const props = defineProps({
@@ -43,7 +44,6 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 }
 
 .card-body {
-  /* Body styles */
 }
 
 .card-footer {
