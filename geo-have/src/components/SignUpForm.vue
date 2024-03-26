@@ -22,7 +22,7 @@ const register = () => {
     createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
         console.log("Succesfully registered!");
-        router.push('/home'); // router.push redirects to home after sign in
+        router.push('/'); // router.push redirects to home after sign in
     })
     .catch((error) => {
         console.log(error.code);

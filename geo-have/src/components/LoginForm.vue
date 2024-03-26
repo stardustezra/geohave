@@ -4,9 +4,9 @@
 <form @submit.prevent="signUp">
     <input type="email" v-model="email" placeholder="Email" required>
     <input type="password" v-model="password" placeholder="Password" required>
-    <p v-if="errMsg">{{ errMsg }}</p>
 <button @click="register">Log ind</button>
 </form>
+<p v-if="errMsg">{{ errMsg }}</p>
 </div>
 </template>
 
@@ -30,13 +30,13 @@ const register = () => {
         console.log(error.code); 
             switch (error.code) {
                 case "auth/invalid-email":
-                    errMsg.value = "Invalid email";
+                    errMsg.value = "Forkert email";
                     break;
                 case "auth/wrong-password":
-                    errMsg.value = "Incorrect password";
+                    errMsg.value = "Forkert adgangskode";
                     break;
                 default:
-                    errMsg.value = "Email or password was incorrect";
+                    errMsg.value = "Forkert adgangskode eller email";
                     break;
             }
         alert(error.message)
