@@ -5,5 +5,5 @@ import Cardcomponent from "@/components/Cardcomponent.vue";
 
 <template>
   <Menu />
-  <Cardcomponent />
+  <Cardcomponent title="Skattejagt" />
 </template>

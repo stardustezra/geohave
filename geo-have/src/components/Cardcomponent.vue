@@ -18,7 +18,7 @@
 <script setup>
 import { ref } from "vue";
 import cover from "../assets/images/Cover.png";
-import stag from "../assets/fonts/stag_regular.ttf";
+import Stag from "../assets/fonts/stag_regular.ttf";
 
 // Props
 const props = defineProps({
@@ -30,6 +30,12 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 </script>
 
 <style scoped>
+@font-face {
+  font-family: "Stag";
+  src: url("../assets/fonts/stag_regular.ttf") format("truetype");
+  /* You can include more font formats for better browser support */
+}
+
 /* Define your card styles here */
 .card {
   background-color: #fef9ea;
@@ -37,10 +43,17 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 
 .card-header {
   /* Header styles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-size: 430px 104px; /* Set background size */
-  background-position: center;
   color: white; /* Set text color to ensure visibility */
   padding: 20px; /* Adjust padding as needed */
+}
+
+.card-header h1 {
+  font-family: "Stag", sans-serif; /* Use custom font */
+  font-size: 24px; /* Set font size */
 }
 
 .card-body {
