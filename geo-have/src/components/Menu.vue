@@ -13,12 +13,6 @@
       <button class="burger-menu" @click="toggleMobileMenu">
         <img :src="BurgerMenu" alt="menu" />
       </button>
-      <ul :class="{ 'navigation': !mobile, 'mobile-menu': mobile }">
-        <li>
-          <router-link to="/" class="home">Home</router-link>
-        </li>
-        <!-- Add more menu items as needed -->
-      </ul>
     </nav>
   </header>
 </template>
@@ -50,6 +44,10 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: #2c5e36;
+}
+
+.ticket {
+  margin-bottom: -6px;
 }
 
 /* Styling for burger menu */
