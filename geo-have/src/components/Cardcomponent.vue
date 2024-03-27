@@ -18,7 +18,6 @@
 <script setup>
 import { ref } from "vue";
 import cover from "../assets/images/Cover.png";
-import Stag from "../assets/fonts/stag_regular.ttf";
 
 // Props
 const props = defineProps({
