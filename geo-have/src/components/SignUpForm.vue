@@ -1,32 +1,100 @@
 <template>
-    <div class="wrapper">
+  <div class="wrapper">
     <h2>Registrer</h2>
-<form @submit.prevent="signUp">
-    <input type="email" v-model="email" placeholder="Email" required>
-    <input type="password" v-model="password" placeholder="Password" required>
-<button @click="register">Registrer</button>
-</form>
-</div>
+    <form @submit.prevent="signUp" class="signup-form">
+      <div class="form-group">
+        <input
+          type="email"
+          v-model="email"
+          id="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          v-model="password"
+          id="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <button @click="register">Registrer</button>
+    </form>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from 'vue-router' //imports router
+import { useRouter } from "vue-router"; //imports router
 
 const email = ref("");
 const password = ref("");
 const router = useRouter();
 
 const register = () => {
-    createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
-        console.log("Succesfully registered!");
-        router.push('/'); // router.push redirects to home after sign in
+      console.log("Succesfully registered!");
+      router.push("/"); // router.push redirects to home after sign in
     })
     .catch((error) => {
-        console.log(error.code);
-        alert(error.message)
-    })
+      console.log(error.code);
+      alert(error.message);
+    });
 };
 </script>
+
+<style scoped>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+}
+
+h2 {
+  align-items: left;
+}
+
+.signup-form {
+  width: 300px;
+  margin-right: auto;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="email"],
+input[type="password"],
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+button {
+  background-color: var(--btn-soft-green);
+  color: aliceblue;
+}
+
+button:hover {
+  background-color: var(--primary-green);
+}
+
+p {
+  color: var(--btn-soft-red);
+}
+
+/* Responsive styling */
+@media screen and (max-width: 767) {
+  .wrapper.signup-form {
+    width: 90%;
+  }
+}
+</style>
