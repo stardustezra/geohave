@@ -39,7 +39,7 @@ const register = () => {
   signInWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
       console.log("Succesfully logged in!");
-      //  router.push('/home'); // router.push redirects to home after sign in
+      router.push('/'); // router.push redirects to / after sign in
     })
     .catch((error) => {
       console.log(error.code);

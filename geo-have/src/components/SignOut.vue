@@ -26,7 +26,8 @@ onMounted(() => {
 
 const handleSignOut = () => {
   signOut(auth).then(() => {
-    router.push("/");
+    router.push("/home");
+    console.log("Succesfully logged out!");
   });
 };
 </script>
