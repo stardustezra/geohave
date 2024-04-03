@@ -31,8 +31,9 @@ import { signIn } from "@/services/AuthService";
 
 const email = ref("");
 const password = ref("");
+const errMsg = ref("");
 const onSubmitForm = () => {
-  signIn(email.value, password.value);
+  signIn(email.value, password.value, errMsg);
 };
 
 // Old code
