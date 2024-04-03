@@ -2,7 +2,7 @@
   <div class="wrapper">
     <h2>Log ind</h2>
     <p>For at begynde skattejagten</p>
-    <form @submit.prevent="signIn" class="login-form">
+    <form @submit.prevent="onSubmitForm" class="signin-form">
       <div class="form-group">
         <input
           type="email"
@@ -19,7 +19,7 @@
           required
         />
       </div>
-      <button @click="register">Log ind</button>
+      <button type="submit">Log ind</button>
     </form>
     <p v-if="errMsg">{{ errMsg }}</p>
   </div>
@@ -27,36 +27,43 @@
 
 <script setup>
 import { ref } from "vue";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "vue-router"; //imports router
+import { signIn } from "@/services/AuthService";
 
 const email = ref("");
 const password = ref("");
-const errMsg = ref();
-const router = useRouter();
-
-const register = () => {
-  signInWithEmailAndPassword(getAuth(), email.value, password.value)
-    .then((data) => {
-      console.log("Succesfully logged in!");
-      router.push('/'); // router.push redirects to / after sign in
-    })
-    .catch((error) => {
-      console.log(error.code);
-      switch (error.code) {
-        case "auth/invalid-email":
-          errMsg.value = "Forkert email";
-          break;
-        case "auth/wrong-password":
-          errMsg.value = "Forkert adgangskode";
-          break;
-        default:
-          errMsg.value = "Forkert adgangskode eller email";
-          break;
-      }
-      alert(error.message);
-    });
+const onSubmitForm = () => {
+  signIn(email.value, password.value);
 };
+
+// Old code
+
+// import { useRouter } from "vue-router"; //imports router
+
+// const errMsg = ref();
+// const router = useRouter();
+
+// const register = () => {
+//   signInWithEmailAndPassword(getAuth(), email.value, password.value)
+//     .then((data) => {
+//       console.log("Succesfully logged in!");
+//       router.push("/"); // router.push redirects to / after sign in
+//     })
+//     .catch((error) => {
+//       console.log(error.code);
+//       switch (error.code) {
+//         case "auth/invalid-email":
+//           errMsg.value = "Forkert email";
+//           break;
+//         case "auth/wrong-password":
+//           errMsg.value = "Forkert adgangskode";
+//           break;
+//         default:
+//           errMsg.value = "Forkert adgangskode eller email";
+//           break;
+//       }
+//       alert(error.message);
+//     });
+// };
 </script>
 
 <style scoped>
@@ -66,7 +73,7 @@ const register = () => {
   padding: 2em;
 }
 
-.login-form {
+.signin-form {
   width: 300px;
   margin-right: auto;
   align-items: center;
