@@ -3,6 +3,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
@@ -18,7 +19,7 @@ export const onSignOut = async () => {
   }
 };
 
-// state change to display log out instead of login
+// state change to display logout instead of login
 export const stateChange = (callback) => {
   onAuthStateChanged(auth, callback);
 };
@@ -28,10 +29,10 @@ export const signIn = async (email, password, errMsg) => {
     const userData = await signInWithEmailAndPassword(auth, email, password);
     console.log("Succesful sign in!");
     router.push("/"); // redirects to home after succesful sign in
+    console.log(userData);
     return {
       uid: userData.user.uid,
     };
-    console.log(userData);
   } catch (error) {
     console.log(error.code);
     switch (error.code) {
@@ -47,5 +48,19 @@ export const signIn = async (email, password, errMsg) => {
     }
     alert(error.message);
     return null;
+  }
+};
+
+export const signUp = async (email, password) => {
+  const auth = getAuth();
+  const router = useRouter();
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    console.log("Succesful signup!");
+    router.push("/");
+  } catch (error) {
+    console.log(error.code);
+    alert(error.message);
   }
 };

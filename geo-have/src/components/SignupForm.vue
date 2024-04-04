@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <h2>Registrer</h2>
-    <form @submit.prevent="signUp" class="signup-form">
+    <form @submit.prevent="onSubmitForm" class="signup-form">
       <div class="form-group">
         <input
           type="email"
@@ -18,30 +18,19 @@
           required
         />
       </div>
-      <button @click="register">Registrer</button>
+      <button type="submit">Registrer</button>
     </form>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "vue-router"; //imports router
+import { signUp } from "@/services/AuthService";
 
 const email = ref("");
 const password = ref("");
-const router = useRouter();
-
-const register = () => {
-  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
-    .then((data) => {
-      console.log("Succesfully registered!");
-      router.push("/"); // router.push redirects to home after sign in
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
-    });
+const onSubmitForm = () => {
+  signUp(email.value, password.value);
 };
 </script>
 
