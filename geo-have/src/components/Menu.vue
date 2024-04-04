@@ -10,7 +10,12 @@
       <div class="search-icon">
         <img :src="Search" alt="search" />
       </div>
-      <div :class="{ 'open': isOpen }" @click="toggleMenu" class="nav-icon" id="nav-icon3">
+      <div
+        :class="{ open: isOpen }"
+        @click="toggleMenu"
+        class="nav-icon"
+        id="nav-icon3"
+      >
         <span></span>
         <span></span>
         <span></span>
@@ -21,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const isOpen = ref(false);
 
@@ -34,13 +39,12 @@ import Ticket from "../assets/icons/billet.png";
 import Geoh from "../assets/icons/Geoh.png";
 
 const scrollPosition = ref(false);
-const mobile = ref(window.innerWidth < 768); 
+const mobile = ref(window.innerWidth < 768);
 
 // Update mobile value when window size changes
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   mobile.value = window.innerWidth < 768;
 });
-
 </script>
 
 <style scoped>
@@ -50,8 +54,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: #2c5e36;
-  padding: 10px; 
-  height: 70px; 
+  padding: 10px;
+  height: 70px;
 }
 
 .nav-logo {
@@ -67,19 +71,20 @@ nav {
 
 .ticket {
   display: flex;
-  background-color: #FAE284;
+  background-color: #fae284;
   width: 70px;
   height: 70px;
   justify-content: center;
   align-items: center;
 }
 
-.ticket img, .search-icon img {
+.ticket img,
+.search-icon img {
   max-width: 100%;
   max-height: 100%;
 }
 
-.search-icon{
+.search-icon {
   display: flex;
   width: 70px;
   height: 70px;
@@ -93,23 +98,23 @@ nav {
 }
 
 .nav-icon {
-  width: 45px; 
-  height: 35px; 
+  width: 45px;
+  height: 35px;
   position: relative;
-  margin: 0 20px; 
+  margin: 0 20px;
   cursor: pointer;
 }
 
 .nav-icon span {
   display: block;
   position: absolute;
-  height: 7px; 
+  height: 7px;
   width: 100%;
   background: #fff;
-  border-radius: 7px; 
+  border-radius: 7px;
   opacity: 1;
   left: 0;
-  transition: .25s ease-in-out;
+  transition: 0.25s ease-in-out;
 }
 
 /* Initial state of the spans */
@@ -117,7 +122,8 @@ nav {
   top: 0px;
 }
 
-.nav-icon span:nth-child(2), .nav-icon span:nth-child(3) {
+.nav-icon span:nth-child(2),
+.nav-icon span:nth-child(3) {
   top: 14px; /* Adjust the top position of spans */
 }
 
@@ -148,7 +154,7 @@ nav {
 
 /* Styling for burger menu */
 .burger-menu {
-  display: none; 
+  display: none;
 }
 
 .burger-menu .nav-icon {
@@ -174,8 +180,8 @@ nav {
   }
 
   .nav-logo img {
-    max-width: 190px; 
-    max-height: 43px; 
+    max-width: 190px;
+    max-height: 43px;
     margin-right: 20px;
   }
 
@@ -183,28 +189,30 @@ nav {
     margin-right: 5px; /* Tilføj margen til højre for .ticket */
   }
 
-  .ticket, .search-icon {
+  .ticket,
+  .search-icon {
     height: 45px;
     width: 105px;
   }
 
-  .ticket img, .search-icon img {
+  .ticket img,
+  .search-icon img {
     width: 50%; /* Mindre end før */
     height: 50%; /* Mindre end før */
   }
-  
+
   .ticket {
     width: 180px; /* Mindre end før */
     height: 70px; /* Mindre end før */
   }
 
   .search-icon {
-  display: flex;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-  margin-right: -10px; 
-}
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-right: -10px;
+  }
 
   .nav-icon span {
     height: 2px; /* Adjust thickness as needed */
@@ -215,7 +223,8 @@ nav {
     top: 6px; /* Juster topafstanden for første span */
   }
 
-  .nav-icon span:nth-child(2), .nav-icon span:nth-child(3) {
+  .nav-icon span:nth-child(2),
+  .nav-icon span:nth-child(3) {
     top: 16px; /* Juster topafstanden for andet og tredje span */
   }
 
