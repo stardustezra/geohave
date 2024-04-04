@@ -1,10 +1,10 @@
 <template>
     <div class="centered">
       <div class="LandingpageButtons">
-        <button class="btn">
-          <img class="icon" src="../assets/icons/Map.svg" alt="Start jagten">
-          Start jagten
-        </button>
+        <router-link to="/skattejagt" class="btn">
+             <img class="icon" src="../assets/icons/Map.svg" alt="Start jagten">
+             Start jagten
+        </router-link>
         <button class="btn">
           <img class="icon" src="../assets/icons/Treasure.svg" alt="Læs om præmier icon">
           Læs om præmier
@@ -27,9 +27,15 @@
   
   <script setup>
   import { ref } from 'vue';
-  </script>
+  import StartHunt from './StartHunt.vue';
+
+
+</script>
+
+
+
   
-  <style scoped>
+<style scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
@@ -38,13 +44,13 @@
     justify-content: center;
     align-items: center;
     height: 225px;
-  }
+}
   
-  .LandingpageButtons {
+.LandingpageButtons {
     text-align: center;
-  }
+}
   
-  .btn {
+.btn {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -56,22 +62,22 @@
     border: none; 
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
-  }
+}
   
-  .icon {
+.icon {
     margin-right: 7px;
     width: 20px;
-  }
+}
   
-  .caption {
+.caption {
     color: #000; 
     font-size: 24px; 
     margin-left: 37px;
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
-  }
+}
   
-  .white-box {
+.white-box {
     background-color: #FFF;
     padding: 20px;
     border-radius: 5px;
@@ -80,22 +86,22 @@
     max-width: 600px; 
     margin-left: auto; 
     margin-right: auto; 
-  }
+}
   
-  .header {
+.header {
     color: #000;
     font-size: 24px;
     margin-bottom: 10px;
     margin-top: -15px;
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
-  }
+}
   
-  .body-text {
+.body-text {
     color: #000;
     font-size: 12px;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
-  }
-  </style>
+}
+</style>
   
