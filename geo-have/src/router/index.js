@@ -24,6 +24,11 @@ const router = createRouter({
       path: "/skattejagt",
       name: "skattejagt",
       component: () => import("@/views/TreasureHuntView.vue")
+    },
+    {
+      path: "/quiz",
+      name: "QuizPage",
+      component: () => import("@/components/QuizPage.vue")
     }
   ],
 });
