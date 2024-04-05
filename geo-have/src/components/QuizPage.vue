@@ -1,8 +1,7 @@
 <template>
     <main class="app">
         <h1>Quiz!</h1>
-
-        <section class="quiz">
+        <section class="quiz" v-if="!quizCompleted">
             <div class="quiz-info">
                 <span class="question">
                     {{  getCurrentQuestion.question }}
@@ -28,8 +27,28 @@
                 <input type="radio" 
                     :name="getCurrentQuestion.index"
                     :value="index"
+                    v-model="getCurrentQuestion.selected"
+                    :disabled="getCurrentQuestion.selected"
+                    @change="setAnswer">
+                    <span>{{ option }}</span>
             </label>
         </div>
+            <button 
+                @click="nextQuestion" 
+                :disabled="!getCurrentQuestion.selected">
+                {{ 
+                    getCurrentQuestion.index ==questions.length -1
+                    ? 'Finish'
+                    :getCurrentQuestion.selected == null 
+                        ? 'Select an option'
+                        :'Next question'
+                }}
+            </button>
+        </section>
+
+        <section v-else>
+            <h2>You have finished the quiz!</h2>
+            <p>Your score is {{ score }}/{{ questions.length }}</p>
         </section>
     </main>
 </template>
@@ -40,7 +59,7 @@ import { ref, computed } from 'vue';
 const questions = ref([
     {
         question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
-        answer: 2,
+        answer: 1,
         options: [
             'Sommer',
             'Forår',
@@ -69,10 +88,10 @@ const getCurrentQuestion = computed (() => {
      return question
 })
 
-const setAnswer = e => {
-    questions.value[currentQuestion.value].selected = e.target.value
-    e.target.checked = false
-}
+const setAnswer = (e) => {
+    questions.value[currentQuestion.value].selected = parseInt(e.target.value);
+};
+
 
 const nextQuestion = () => {
     if (currentQuestion.value < questions.value.length - 1) {
