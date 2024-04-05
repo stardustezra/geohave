@@ -6,29 +6,18 @@ import Navbar from "../components/Navbar.vue";
   <Navbar />
   <div class="wrapper">
     <div class="pointshop-header">
-      <!-- background overlay -->
-      <div class="overlay"></div>
-      <!-- Change the source of the image to one with a transparent background -->
       <img
         src="../assets/icons/dotted_black_background.svg"
-        class="background-image"
+        class="overlay-image"
       />
-      <!-- Add a container for the image overlay -->
-      <div class="image-overlay">
-        <!-- Change the source to the image you want as an overlay -->
-        <img
-          src="../assets/icons/dotted_black_background.svg"
-          class="background-image"
-        />
-      </div>
       <div class="pointshop-text">
-        <h2>Pointshop</h2>
+        <h2>Points</h2>
         <p>Samlede optjente point</p>
         <h2>{{ point }} 20</h2>
         <p>Optjen flere point for at få flere præmier</p>
-        <div class="icon">
-          <img src="../assets/icons/trophy.svg" alt="trophy" />
-        </div>
+      </div>
+      <div class="icon">
+        <img src="../assets/icons/trophy.svg" alt="trophy" />
       </div>
     </div>
   </div>
@@ -43,38 +32,40 @@ import Navbar from "../components/Navbar.vue";
 
 .pointshop-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   margin-top: 50px;
   position: relative;
   background-color: var(--primary-green);
   padding: 20px;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+  border-radius: 4px;
 }
 
 .overlay-image {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: 1;
 }
 
 .pointshop-text {
   position: relative; /* Ensure text remains on top of the overlay */
   z-index: 1;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  color: var(--primary-yellow);
+  border-radius: 50%;
+  margin-left: 20px;
 }
 
 @font-face {
