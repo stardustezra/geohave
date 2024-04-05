@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <div id="map" style="height: 50vh"></div>
-  </div>
+  <MapInfobox />
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+import MapInfobox from "./MapInfobox.vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 
@@ -29,7 +28,7 @@ onMounted(() => {
         initialMap.value.setView([latitude, longitude], 13);
         L.marker([latitude, longitude])
           .addTo(initialMap.value)
-          .bindPopup("You are here")
+          .bindPopup("You are here", { maxWidth: "auto" })
           .openPopup();
 
         // Show treasure area at current location for testing
@@ -55,12 +54,15 @@ onMounted(() => {
     treasureAreaCircle.bindPopup("Treasure area!");
 
     // Define the point within the area for the popup
-    const popupPoint = L.latLng(lat + 0.001, lng + 0.001); // Adjust as needed
+    const popupPoint = L.latLng(lat, lng); // Adjust as needed
 
     // Bind popup to the specific point inside the area
-    L.popup()
+    L.popup({
+      maxHeight: "auto",
+      maxWidth: "auto",
+    })
       .setLatLng(popupPoint)
-      .setContent("Treasure here!")
+      .setContent("<div class='popup-content'>Treasure here!</div>")
       .openOn(initialMap.value);
   }
 });
