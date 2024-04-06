@@ -13,11 +13,16 @@
 <style scoped>
 .map-container {
   position: relative; /* Set container position to relative */
-  height: 70vh; /* Adjust to take up 70% of the screen */
+  flex: 1;
 }
 
 .map {
+  position: absolute;
   height: 100%; /* Fill up the entire container */
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .info-box {
