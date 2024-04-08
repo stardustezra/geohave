@@ -2,8 +2,11 @@
   <div class="map-container">
     <div id="map" class="map"></div>
     <div class="info-box">
-      <h2>Treasure Map</h2>
-      <p>This is your treasure map. Explore and find the hidden treasure!</p>
+      <h2>Tryk videre til næste opgave</h2>
+      <p>
+        På din enhed vil du kunne se forskellig områder. Disse skal du udforske,
+        og når du finder skatten vil du få en opgave inden du får dine point.
+      </p>
     </div>
   </div>
 </template>
@@ -27,12 +30,14 @@
 
 .info-box {
   position: absolute; /* Position the info box absolutely */
-  bottom: 10px; /* Adjust bottom position as needed */
-  left: 10px; /* Adjust left position as needed */
+  top: 70%; /* Center vertically */
+  left: 0;
+  width: 100%; /* Take up full width of the screen */
+  height: 30%; /* Set height to 30% of the screen */
   background-color: var(--background-color);
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 20px 20px 0 0; /* Set border radius to 20px */
   z-index: 1000; /* Ensure the info box is above the map */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 </style>
