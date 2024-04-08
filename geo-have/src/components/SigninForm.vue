@@ -82,7 +82,7 @@ button {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   margin-top: 5px;
@@ -90,12 +90,12 @@ button {
 
 button {
   background-color: var(--btn-soft-green);
-  color: aliceblue;
+  color: white;
   font-weight: bold;
 }
 
 button:hover {
-  background-color: var(--primary-green);
+  background-color: var(--btn-on-click-green);
 }
 
 p {
