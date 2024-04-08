@@ -1,12 +1,17 @@
 @import "./base.css";
 
 body {
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color);
 }
 #app {
+  display: flex;
+  flex-direction: column;
   max-width: 100%;
   margin: 0 auto;
   font-weight: normal;
+  flex: 1;
 }
 
 a,
