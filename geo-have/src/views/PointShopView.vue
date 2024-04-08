@@ -63,8 +63,7 @@ import Navbar from "../components/Navbar.vue";
   align-items: center;
   width: 100px;
   height: 100px;
-  color: var(--primary-yellow);
-  border-radius: 50%;
+  color-overlay: var(--primary-yellow);
   margin-left: 20px;
 }
 
