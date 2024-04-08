@@ -1,10 +1,10 @@
 <template>
-  <Menu />
+  <Navbar />
   <TreasureMap />
 </template>
 
 <script setup>
-import Menu from "@/components/Menu.vue";
+import Navbar from "@/components/Navbar.vue";
 import TreasureMap from "@/components/TreasureMap.vue";
 </script>
 
