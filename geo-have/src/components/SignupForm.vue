@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <h2>Registrer</h2>
+    <p>Registrer for at begynde skattejagten</p>
     <form @submit.prevent="onSubmitForm" class="signup-form">
       <div class="form-group">
         <input
@@ -43,6 +44,7 @@ const onSubmitForm = () => {
 
 h2 {
   align-items: left;
+  font-weight: bold;
 }
 
 .signup-form {
@@ -70,6 +72,7 @@ button {
 button {
   background-color: var(--btn-soft-green);
   color: aliceblue;
+  font-weight: bold;
 }
 
 button:hover {

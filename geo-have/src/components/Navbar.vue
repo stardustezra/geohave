@@ -16,22 +16,35 @@
         class="nav-icon"
         id="nav-icon3"
       >
+        <!-- Add class 'burger-menu' if mobile is true -->
         <span></span>
         <span></span>
         <span></span>
         <span></span>
       </div>
+      <ul class="dropdown-menu" v-if="isOpen">
+        <li v-if="!authenticated">
+          <router-link to="/signup">Registrer</router-link>
+        </li>
+        <li v-if="!authenticated">
+          <router-link to="/signin">Log ind</router-link>
+        </li>
+        <li v-if="authenticated" @click="signOut">Log ud</li>
+      </ul>
     </nav>
   </header>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { stateChange, onSignOut } from "@/services/AuthService";
 
 const isOpen = ref(false);
+const authenticated = ref(false);
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
+  console.log("Toggle menu function called. isOpen:", isOpen.value);
 };
 
 import Search from "../assets/icons/Search_White.png";
@@ -45,6 +58,20 @@ const mobile = ref(window.innerWidth < 768);
 window.addEventListener("resize", () => {
   mobile.value = window.innerWidth < 768;
 });
+
+// watch for changes in auth state
+stateChange((user) => {
+  authenticated.value = !!user; // update authenticated based on user existence
+});
+
+// sign out function
+const signOut = async () => {
+  await onSignOut();
+};
+
+stateChange((user) => {
+  authenticated.value = !!user;
+});
 </script>
 
 <style scoped>
@@ -52,8 +79,9 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
   align-items: center;
-  background-color: #2c5e36;
+  background-color: var(--primary-green);
   padding: 10px;
   height: 70px;
 }
@@ -115,6 +143,32 @@ nav {
   opacity: 1;
   left: 0;
   transition: 0.25s ease-in-out;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--background-color);
+  width: 100%;
+  padding: 5px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.dropdown-menu li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.dropdown-menu li:hover {
+  background-color: #fae284;
 }
 
 /* Initial state of the spans */

@@ -21,7 +21,23 @@
       </div>
       <button type="submit">Log ind</button>
     </form>
-    <p v-if="errMsg">{{ errMsg }}</p>
+    <p v-if="errMsg" class="error-message">{{ errMsg }}</p>
+    <div class="links-section">
+      <p class="signup-link">
+        <router-link to="/signup">Opret konto</router-link>
+      </p>
+      <p class="guest-link">
+        <router-link to="/skattejagt">Fortsæt som gæst</router-link>
+      </p>
+    </div>
+    <hr />
+    <div class="socials-signin">
+      <p>Log ind med</p>
+      <div class="socials-icons">
+        <img src="../assets/icons/facebook.svg" alt="Facebook" />
+        <img src="../assets/icons/google.svg" alt="Google" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,36 +51,6 @@ const errMsg = ref("");
 const onSubmitForm = () => {
   signIn(email.value, password.value, errMsg);
 };
-
-// Old code
-
-// import { useRouter } from "vue-router"; //imports router
-
-// const errMsg = ref();
-// const router = useRouter();
-
-// const register = () => {
-//   signInWithEmailAndPassword(getAuth(), email.value, password.value)
-//     .then((data) => {
-//       console.log("Succesfully logged in!");
-//       router.push("/"); // router.push redirects to / after sign in
-//     })
-//     .catch((error) => {
-//       console.log(error.code);
-//       switch (error.code) {
-//         case "auth/invalid-email":
-//           errMsg.value = "Forkert email";
-//           break;
-//         case "auth/wrong-password":
-//           errMsg.value = "Forkert adgangskode";
-//           break;
-//         default:
-//           errMsg.value = "Forkert adgangskode eller email";
-//           break;
-//       }
-//       alert(error.message);
-//     });
-// };
 </script>
 
 <style scoped>
@@ -72,6 +58,7 @@ const onSubmitForm = () => {
   display: flex;
   flex-direction: column;
   padding: 2em;
+  justify-content: center;
 }
 
 .signin-form {
@@ -82,6 +69,7 @@ const onSubmitForm = () => {
 
 h2 {
   align-items: left;
+  font-weight: bold;
 }
 
 .form-group {
@@ -103,6 +91,7 @@ button {
 button {
   background-color: var(--btn-soft-green);
   color: aliceblue;
+  font-weight: bold;
 }
 
 button:hover {
@@ -111,6 +100,36 @@ button:hover {
 
 p {
   color: var(--btn-soft-red);
+}
+
+.error-message {
+  margin-top: 10px;
+  color: var(--btn-soft-red);
+  font-weight: bold;
+}
+
+.links-section {
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.signup-link,
+.guest-link {
+  font-size: 16px;
+  padding: 10px;
+}
+.signup-link a,
+.guest-link a {
+  font-weight: bold;
+  color: var(--btn-soft-green);
+}
+
+hr {
+  border: 0.5px solid #ccc;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* Responsive styling */

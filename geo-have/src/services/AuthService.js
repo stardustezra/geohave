@@ -6,10 +6,9 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { useRouter } from "vue-router";
+import router from "@/router";
 
 const auth = getAuth();
-const router = useRouter();
 
 export const onSignOut = async () => {
   try {
@@ -24,6 +23,7 @@ export const stateChange = (callback) => {
   onAuthStateChanged(auth, callback);
 };
 
+// sign in function
 export const signIn = async (email, password, errMsg) => {
   try {
     const userData = await signInWithEmailAndPassword(auth, email, password);
@@ -51,10 +51,8 @@ export const signIn = async (email, password, errMsg) => {
   }
 };
 
+// sign up function
 export const signUp = async (email, password) => {
-  const auth = getAuth();
-  const router = useRouter();
-
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     console.log("Succesful signup!");
