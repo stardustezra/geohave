@@ -1,16 +1,13 @@
 <template>
-    <Menu />
-    <Cardcomponent title="Skattejagt" />
-    <StartHunt />
+  <Menu />
+  <CardComponent title="Skattejagt" />
+  <StartHunt />
 </template>
 
 <script setup>
-import StartHunt from '@/components/StartHunt.vue';
+import StartHunt from "@/components/StartHunt.vue";
 import Menu from "../components/Menu.vue";
-import Cardcomponent from "@/components/Cardcomponent.vue";
-
+import CardComponent from "@/components/CardComponent.vue";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
