@@ -54,7 +54,7 @@ onMounted(() => {
     treasureAreaCircle.bindPopup("Treasure area!");
 
     // Define the point within the area for the popup
-    const popupPoint = L.latLng(lat, lng); // Adjust as needed
+    const popupPoint = L.latLng(lat, lng);
 
     // Bind popup to the specific point inside the area
     L.popup({
