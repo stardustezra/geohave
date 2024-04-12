@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import TreasureHuntView from "../views/TreasureHuntView.vue";
+import NotFoundView from "../views/Http404View.vue"; // Import the 404 view
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,12 @@ const router = createRouter({
       path: "/quiz",
       name: "QuizPage",
       component: () => import("@/views/QuizView.vue")
+    },
+    {
+      // Catch-all route for unmatched routes
+      path: "/:catchAll(.*)",
+      name: "404Page",
+      component: NotFoundView
     }
   ],
 });
