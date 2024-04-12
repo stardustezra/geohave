@@ -61,7 +61,7 @@ import Navbar from "../components/Navbar.vue";
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 1px;
   height: 100px;
   color-overlay: var(--primary-yellow);
   margin-left: 20px;
