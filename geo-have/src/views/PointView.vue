@@ -29,10 +29,10 @@
 <div class="pointshop-section2">
   <h2>Indløs</h2>  
   <div class="container">
-    <PointShopIthem icon="../assets/icons/Soda.svg" points="20" text="Sodavand eller egent valg" />
-    <PointShopIthem icon="../assets/icons/IceCream_.svg" points="30" text="Gratis dessert efter valg" />
-    <PointShopIthem icon="../assets/icons/Ticket.svg" points="40" text="50% på næste besøg" />
-    <PointShopIthem icon="../assets/icons/lego.svg" points="50" text="Gratis billet til Legoland" />
+    <PointShopIthem icon="soda" points="20" text="Sodavand eller egent valg" tal="0/5" />
+    <PointShopIthem icon="icecream" points="30" text="Gratis dessert efter valg" tal="0/3"  />
+    <PointShopIthem icon="ticket" points="40" text="50% på næste besøg" tal="0/1"  />
+    <PointShopIthem icon="lego" points="50" text="Gratis billet til Legoland" tal="0/1"  />
 
   </div>
 </div>
@@ -43,6 +43,8 @@
 import Navbar from "../components/Navbar.vue";
 import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
+
+
 
 </script>
 

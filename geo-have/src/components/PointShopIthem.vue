@@ -4,8 +4,17 @@
         {{ points }}</div>
       <div class="point-shop-item-cost"></div>
       <div class="point-shop-item-icon">
-        <img
-          :src="icon"
+        <img v-if="icon === 'soda'"
+          src="../assets/icons/Soda.svg"
+        />
+        <img v-if="icon === 'icecream'"
+          src="../assets/icons/IceCream_.svg"
+        />
+        <img v-if="icon === 'ticket'"
+          src="../assets/icons/Ticket.svg"
+        />
+        <img v-if="icon === 'lego'"
+          src="../assets/icons/lego.svg"
         />
       </div>
       <div class="point-shop-item-text">
