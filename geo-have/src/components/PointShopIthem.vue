@@ -21,13 +21,13 @@
         {{ text }}
       </div>
       <div class="point-shop-item-text-tal">
-        {{ tal }}
+        {{ uses }}/{{ max }}
       </div>
     </div>  
 </template>
 
 <script setup>
-  defineProps(["icon","points","text","tal"])
+  defineProps(["icon","points","text","uses","max"])
 </script>
 
 <style scoped>

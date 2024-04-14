@@ -16,7 +16,7 @@
       <div class="pointshop-text">
         <h2>Points</h2>
         <p>Samlede optjente point</p>
-        <h2>{{ point }} 20</h2>
+        <h2>{{ points }}</h2>
         <p>Optjen flere point for at få flere præmier</p>
         <p class="small-text">* indløs point før næste sæson</p>
    
@@ -29,11 +29,7 @@
 <div class="pointshop-section2">
   <h2>Indløs</h2>  
   <div class="container">
-    <PointShopIthem icon="soda" points="20" text="Sodavand eller egent valg" tal="0/5" />
-    <PointShopIthem icon="icecream" points="30" text="Gratis dessert efter valg" tal="0/3"  />
-    <PointShopIthem icon="ticket" points="40" text="50% på næste besøg" tal="0/1"  />
-    <PointShopIthem icon="lego" points="50" text="Gratis billet til Legoland" tal="0/1"  />
-
+    <PointShopIthem v-for="item in PointShopItemsLocal" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="pointShopTransactions.filter(x => x.pointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
   </div>
 </div>
 
@@ -44,7 +40,56 @@ import Navbar from "../components/Navbar.vue";
 import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
 
+const PointShopItemsLocal = [
+  {
+    id: 1,
+    cost: 20,
+    icon: "soda",
+    text: "Sodavand eller egent valg",
+    max: 5
+  },
+  {
+    id: 2,
+    cost: 50,
+    icon: "icecream",
+    text: "Gratis dessert efter valg",
+    max: 3
+  },
+  {
+    id: 3,
+    cost: 150,
+    icon: "ticket",
+    text: "50% på næste besøg",
+    max: 1
+  },
+  {
+    id: 4,
+    cost: 300,
+    icon: "lego",
+    text: "Gratis billet til Legoland",
+    max: 1
+  }
+]
 
+var storedPoints = parseInt(localStorage.getItem('points'));
+var points = !isNaN(storedPoints) ? storedPoints : 0;
+
+var storedTransactions = localStorage.getItem('pointShopTransactions');
+var pointShopTransactions = storedTransactions !== null ? JSON.parse(storedTransactions) : [];
+
+function makeTransaction(pointShopItemId, cost, max) {
+  if(points > cost && pointShopTransactions.filter(x => x.pointShopItemId === pointShopItemId).length < max) {
+    points = points - cost;
+    localStorage.setItem('points', JSON.stringify(points));
+
+    pointShopTransactions.push({ userId: 1, pointShopItemId: pointShopItemId})
+    localStorage.setItem('pointShopTransactions', JSON.stringify(pointShopTransactions));
+  }
+  else {
+    //Display not posible
+    
+  }
+}
 
 </script>
 
