@@ -36,6 +36,11 @@ const router = createRouter({
       path: "/:catchAll(.*)",
       name: "404Page",
       component: NotFoundView
+    },
+    {
+      path:"/collect",
+      name: "Collect",
+      component: () => import("@/views/CollectView.vue")
     }
   ],
 });

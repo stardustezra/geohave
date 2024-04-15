@@ -1,11 +1,11 @@
 <template>
     <Menu />
-    <Http404 />
+    <CollectPrize />
 </template>
 
 <script setup>
 import Menu from "@/components/Menu.vue";
-import Http404 from "@/components/Http404.vue";
+import CollectPrize from "@/components/CollectPrize.vue";
 
 </script>
 
