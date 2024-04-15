@@ -8,9 +8,14 @@
             <h1>Tillykke med din præmie!</h1>
         </div>
         <div class="expiring-date">
-            <hr>
             <p class="expiring-text">Udløber: 31/08/24</p>
-            <hr>
+             <p class="congrats-text">
+                    Tillykke! Du har vundet en gratis sodavand!
+                    Du kan indløse din præmie ved at vise denne besked til personalet i cafeen.
+             </p>
+        </div>
+        <div class="qr-container">
+            <img src="../assets/icons/qr-code.png" alt="QR code" class="QR-picture">
         </div>
     </div>
 </template>
@@ -66,10 +71,41 @@ h1 {
 .expiring-date {
     margin: auto; 
     text-align: center; 
-    width: 150px; 
+    width: 90%; 
 }
 
 hr {
-    margin: 10px 0; 
+    margin: 10px 0;
+    height: 2px; 
+    background-color: black; 
 }
+
+.expiring-text{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    border-bottom: 1px solid black; 
+    padding-bottom: 10px; 
+    border-top: 1px solid black; 
+    padding-top: 10px; 
+    width: 291px; 
+    margin: 0 auto; 
+    margin-top: 15px;
+}
+
+.congrats-text {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+.QR-picture {
+    width: 185px;
+    display: block; 
+    margin: 0 auto; 
+    margin-top: 30px;
+}
+
+
 </style>

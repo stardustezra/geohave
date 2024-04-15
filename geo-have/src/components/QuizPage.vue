@@ -139,7 +139,6 @@ h1 {
 
 .quiz-info .question{
     color: #090909;
-    font-size:  1.5rem;
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
     font-size: 24px;
