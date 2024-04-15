@@ -45,6 +45,11 @@ const router = createRouter({
       name: "kort",
       component: () => import("@/views/TreasuremapView.vue"),
     },
+    {
+      path: "/opgave",
+      name: "opgave",
+      component: () => import("@/views/OverlayView.vue"),
+    },
   ],
 });
 
