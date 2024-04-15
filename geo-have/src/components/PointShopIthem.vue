@@ -84,13 +84,8 @@
     font-size: 12px;
     color: rgb(25, 25, 25);
     justify-content: center;
-    text-align: center;
-    align-items: center; 
-    width:265px ;
-    height: 30px;
+    text-align: end;
+    margin-right: 6px;
     position: relative; top: -20px;
-  
-
-
 }
 </style>

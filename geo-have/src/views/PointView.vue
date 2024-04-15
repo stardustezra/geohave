@@ -9,10 +9,7 @@
         class="overlay-image"
       />
   
-      <img
-        src="../assets/icons/dotted_black_background.svg"
-        class="overlay-image"
-      />
+     
       <div class="pointshop-text">
         <h2>Points</h2>
         <p>Samlede optjente point</p>
@@ -32,13 +29,25 @@
     <PointShopIthem v-for="item in PointShopItemsLocal" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="pointShopTransactions.filter(x => x.pointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
   </div>
 </div>
-
+<div v-if="displayPopup" class="popup-back-style">
+  <div class="popup-window-style">
+    <h2>Du har brugt alle dine points</h2>
+    <div>
+      <p class="popup-hint">Hint:</p>
+      <p> Du kan først bruge eller optjene efter næste sæson.</p>
+    </div>
+    <button class="popup-button-style" @click="closePopup()">OK</button>
+  </div>
+</div>
 </template>
 
 <script setup>
+
 import Navbar from "../components/Navbar.vue";
 import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
+import { ref } from 'vue';
+
 
 const PointShopItemsLocal = [
   {
@@ -76,6 +85,7 @@ var points = !isNaN(storedPoints) ? storedPoints : 0;
 
 var storedTransactions = localStorage.getItem('pointShopTransactions');
 var pointShopTransactions = storedTransactions !== null ? JSON.parse(storedTransactions) : [];
+const displayPopup = ref(false); 
 
 function makeTransaction(pointShopItemId, cost, max) {
   if(points > cost && pointShopTransactions.filter(x => x.pointShopItemId === pointShopItemId).length < max) {
@@ -84,12 +94,18 @@ function makeTransaction(pointShopItemId, cost, max) {
 
     pointShopTransactions.push({ userId: 1, pointShopItemId: pointShopItemId})
     localStorage.setItem('pointShopTransactions', JSON.stringify(pointShopTransactions));
+
+    //TODO: Move to reward page
   }
   else {
-    //Display not posible
-    
+    displayPopup.value = true;
   }
 }
+
+function closePopup() {
+  displayPopup.value = false;
+}
+
 
 </script>
 
@@ -128,13 +144,15 @@ function makeTransaction(pointShopItemId, cost, max) {
   height: 100%;
   object-fit: cover;
   opacity: 0.2;
-  z-index: 1;
+
 }
 
 .pointshop-text {
   position: relative; /* Ensure text remains on top of the overlay */
   z-index: 1;
-
+  p {
+    color: white;
+  }
 }
 
 .icon {
@@ -143,12 +161,13 @@ function makeTransaction(pointShopItemId, cost, max) {
   align-items: center;
   width: 100px;
   height: 100px;
+  z-index: 1;
   color-overlay: var(--primary-yellow);
   margin-left: 20px;
   img{
     color: var(--primary-yellow);
-    height: 145px;
-    width: 215px;
+    height: 345px;
+    width:415px;
     margin: 0px;
   }
 }
@@ -160,10 +179,7 @@ function makeTransaction(pointShopItemId, cost, max) {
 
 
 
-p {
-  color: white;
-  
-}
+
 .small-text {
         
         font-size: 10px;
@@ -194,10 +210,62 @@ p {
   justify-content: center;
   place-items: center;
 }
+.popup-back-style {
+  z-index: 1;
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: rgba(0, 0, 0, 0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100%;
 
+}
 
+.popup-window-style {
 
+  background-image: linear-gradient(to bottom, var(--color1, #87A669), var(--color2, #2C5E36));
+  width: 100%;
+  margin: 20px;
+  justify-content: center;
+  padding: 50px;
+  border-radius: 3px;
+  color: white;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  h2{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    line-height: 24px;
+    margin-bottom: 20px;
+  
+  
 
- 
+  }
+
+}
+.popup-hint{
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+
+.popup-button-style{
+ background-color: var(--primary-yellow);
+ height: 50px;
+ width: 80%;
+ justify-content: center;
+  border: none;
+  font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+  border-radius: 5px;
+  font-size: 17px;
+  margin-top: 20px;
+
+}
+
 
 </style>
