@@ -26,7 +26,7 @@
 <div class="pointshop-section2">
   <h2>Indløs</h2>  
   <div class="container">
-    <PointShopIthem v-for="item in PointShopItemsLocal" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="pointShopTransactions.filter(x => x.pointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
+    <PointShopIthem v-for="item in PointShopItemsOnline" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="pointShopTransactions.filter(x => x.pointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
   </div>
 </div>
 <div v-if="displayPopup" class="popup-back-style">
@@ -46,8 +46,20 @@
 import Navbar from "../components/Navbar.vue";
 import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue' 
+import {db} from '@/configs/firebase'
+import { collection, getDocs } from "firebase/firestore";
 
+const PointShopItemsOnline = ref([])
+
+onMounted(async() => {
+  const querySnapshot = await getDocs(collection(db, 'PointShopItem'));
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id,'=>', doc.data())
+
+    PointShopItemsOnline.value.push(doc.data())
+  })
+})
 
 const PointShopItemsLocal = [
   {
