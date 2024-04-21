@@ -48,7 +48,7 @@ import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
 import { ref, onMounted } from 'vue' 
 import {db} from '@/configs/firebase'
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection,addDoc, updateDoc, doc, getDocs } from "firebase/firestore";
 
 const UserId = "1";//todo: laves om til global 
 const PointShopItemsOnline = ref([]);
@@ -79,57 +79,23 @@ onMounted(async() => {
   });
 })
 
-//TODO: fjern PointShopItemsLocal, storedPoints, points, storedTransactions, pointShopTransactions
-const PointShopItemsLocal = [
-  {
-    id: 1,
-    cost: 20,
-    icon: "soda",
-    text: "Sodavand eller egent valg",
-    max: 5
-  },
-  {
-    id: 2,
-    cost: 50,
-    icon: "icecream",
-    text: "Gratis dessert efter valg",
-    max: 3
-  },
-  {
-    id: 3,
-    cost: 150,
-    icon: "ticket",
-    text: "50% på næste besøg",
-    max: 1
-  },
-  {
-    id: 4,
-    cost: 300,
-    icon: "lego",
-    text: "Gratis billet til Legoland",
-    max: 1
-  }
-]
-
-var storedPoints = parseInt(localStorage.getItem('points'));
-var points = !isNaN(storedPoints) ? storedPoints : 0;
-
-var storedTransactions = localStorage.getItem('pointShopTransactions');
-var pointShopTransactions = storedTransactions !== null ? JSON.parse(storedTransactions) : [];
 const displayPopup = ref(false); 
 
 function makeTransaction(pointShopItemId, cost, max) {
-  //TODO: ændre points til at være UserPointsOnline
-  //TODO: ændre pointShopTransactions til at bruge PointShopTransactionsOnline
-  if(points > cost && pointShopTransactions.filter(x => x.pointShopItemId === pointShopItemId).length < max) {
-    points = points - cost;
+ 
+  if(UserPointsOnline.value > cost && PointShopTransactionsOnline.value.filter(x => x.pointShopItemId === pointShopItemId).length < max) {
+    UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    //TODO: OPDATER: i stedet for at opdate i local storage skal den opdatere brugerens points i User tabellen
-    localStorage.setItem('points', JSON.stringify(points));
+    const userRef = doc(db, "User", UserId);
+    updateDoc(userRef, {
+      Points: UserPointsOnline.value
+    });
 
-    pointShopTransactions.push({ userId: 1, pointShopItemId: pointShopItemId})
-    //TODO: TILFØJ: i stedet for at opdatere local storage skal den tilføje denne som et nyt item i UserPointShopTransaction
-    localStorage.setItem('pointShopTransactions', JSON.stringify(pointShopTransactions));
+    PointShopTransactionsOnline.value.push({ userId: UserId, pointShopItemId: pointShopItemId})
+    addDoc(collection(db, "UserPointShopTransaction"), {
+      PointShopItemId: pointShopItemId,
+      UserId: UserId
+    });
 
     //TODO: Move to reward page
   }
