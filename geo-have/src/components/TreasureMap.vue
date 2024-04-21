@@ -1,5 +1,5 @@
 <template>
-  <MapInfobox />
+  <MapInfobox @showTreasureArea="showTreasureAreaPopup" />
 </template>
 
 <script setup>
@@ -39,14 +39,6 @@ onMounted(() => {
 
         // Center map at user's position without changing zoom level
         initialMap.value.panTo([latitude, longitude]);
-
-        // Update treasure area position to hardcoded value [55.4043, 10.37975]
-        if (treasureAreaCircle) {
-          treasureAreaCircle.setLatLng([55.4043, 10.37975]);
-        } else {
-          // Create treasure area if it doesn't exist
-          createTreasureArea([55.4043, 10.37975]);
-        }
       },
       (error) => {
         console.error("Error getting geolocation:", error);
@@ -79,5 +71,13 @@ onMounted(() => {
       className: "popup-style",
     }); // Add custom popup style
   }
+
+  // Function to show treasure area popup
+  const showTreasureAreaPopup = () => {
+    if (!treasureAreaCircle) {
+      // Create treasure area if it doesn't exist
+      createTreasureArea([55.4043, 10.37975]);
+    }
+  };
 });
 </script>
