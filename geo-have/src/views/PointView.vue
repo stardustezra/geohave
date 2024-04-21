@@ -13,7 +13,7 @@
       <div class="pointshop-text">
         <h2>Points</h2>
         <p>Samlede optjente point</p>
-        <h2>{{ points }}</h2>
+        <h2>{{ UserPointsOnline }}</h2>
         <p>Optjen flere point for at få flere præmier</p>
         <p class="small-text">* indløs point før næste sæson</p>
    
@@ -26,7 +26,7 @@
 <div class="pointshop-section2">
   <h2>Indløs</h2>  
   <div class="container">
-    <PointShopIthem v-for="item in PointShopItemsOnline" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="pointShopTransactions.filter(x => x.pointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
+    <PointShopIthem v-for="item in PointShopItemsOnline" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="PointShopTransactionsOnline.filter(x => x.PointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
   </div>
 </div>
 <div v-if="displayPopup" class="popup-back-style">
@@ -48,19 +48,38 @@ import PointShopIthem from "../components/PointShopIthem.vue";
 import PointSystem from "../components/PointSystem.vue";
 import { ref, onMounted } from 'vue' 
 import {db} from '@/configs/firebase'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 
-const PointShopItemsOnline = ref([])
+const UserId = "1";//todo: laves om til global 
+const PointShopItemsOnline = ref([]);
+const PointShopTransactionsOnline = ref([]);
+const UserPointsOnline = ref(0);
 
 onMounted(async() => {
-  const querySnapshot = await getDocs(collection(db, 'PointShopItem'));
-  querySnapshot.forEach((doc) => {
+  const querySnapshotPointShopItem = await getDocs(collection(db, 'PointShopItem'));
+  querySnapshotPointShopItem.forEach((doc) => {
     console.log(doc.id,'=>', doc.data())
-
-    PointShopItemsOnline.value.push(doc.data())
-  })
+    const item = doc.data();
+    item.id = doc.id;
+    PointShopItemsOnline.value.push(item)
+  });
+  const querySnapshotUserPoints = await getDocs(collection(db,'User'));
+  querySnapshotUserPoints.forEach((doc)=> {
+    console.log(doc.id,'=>', doc.data())
+    if(doc.id === UserId){
+      UserPointsOnline.value = doc.data().Points;
+    }
+  });
+  const querySnapshotPointShopTransactions = await getDocs(collection(db, 'UserPointShopTransaction'));
+  querySnapshotPointShopTransactions.forEach((doc)=> {
+    console.log(doc.id,'=>', doc.data());
+    if(doc.data().UserId === UserId) {
+      PointShopTransactionsOnline.value.push(doc.data());
+    }
+  });
 })
 
+//TODO: fjern PointShopItemsLocal, storedPoints, points, storedTransactions, pointShopTransactions
 const PointShopItemsLocal = [
   {
     id: 1,
@@ -100,11 +119,16 @@ var pointShopTransactions = storedTransactions !== null ? JSON.parse(storedTrans
 const displayPopup = ref(false); 
 
 function makeTransaction(pointShopItemId, cost, max) {
+  //TODO: ændre points til at være UserPointsOnline
+  //TODO: ændre pointShopTransactions til at bruge PointShopTransactionsOnline
   if(points > cost && pointShopTransactions.filter(x => x.pointShopItemId === pointShopItemId).length < max) {
     points = points - cost;
+
+    //TODO: OPDATER: i stedet for at opdate i local storage skal den opdatere brugerens points i User tabellen
     localStorage.setItem('points', JSON.stringify(points));
 
     pointShopTransactions.push({ userId: 1, pointShopItemId: pointShopItemId})
+    //TODO: TILFØJ: i stedet for at opdatere local storage skal den tilføje denne som et nyt item i UserPointShopTransaction
     localStorage.setItem('pointShopTransactions', JSON.stringify(pointShopTransactions));
 
     //TODO: Move to reward page
@@ -178,8 +202,8 @@ function closePopup() {
   margin-left: 20px;
   img{
     color: var(--primary-yellow);
-    height: 345px;
-    width:415px;
+    height: 160px;
+    width:315px;
     margin: 0px;
   }
 }
