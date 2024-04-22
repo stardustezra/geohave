@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="overlay-wrapper">
     <div class="wrapper">
@@ -10,13 +8,36 @@
         QR-koderne og afsløre ledetråde, der fører dig nærmere skatten.
       </p>
       <div>
-        <router-link to="/task">
-          <button>1. OPGAVE</button>
-        </router-link>
+        <TaskModal @close="toggleModal" :modalActive="modalActive">
+          <div class="modal-content">
+            <h2>This is my modal</h2>
+            <p>My modal message</p>
+          </div>
+        </TaskModal>
+        <button @click="toggleModal" type="button">1. OPGAVE</button>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import TaskModal from "./TaskModal.vue";
+import { ref } from "vue";
+export default {
+  name: "TaskOverlay",
+  components: {
+    TaskModal,
+  },
+  setup() {
+    const modalActive = ref(false);
+
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+    return { modalActive, toggleModal };
+  },
+};
+</script>
 
 <style scoped>
 .overlay-wrapper {
@@ -26,7 +47,7 @@
   width: 100%;
   height: 35%;
   background-color: white;
-  z-index: 9999; /* Ensure it's above other content */
+  z-index: 999; /* Ensure it's above other content */
   display: flex;
   border-radius: 20px 20px 0px 0px;
   justify-content: center;
