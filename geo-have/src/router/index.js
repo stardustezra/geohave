@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-// import { name } from "newrelic/lib/symbols";
+import TreasureHuntView from "../views/TreasureHuntView.vue";
+import NotFoundView from "../views/Http404View.vue"; // Import the 404 view
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,13 +34,8 @@ const router = createRouter({
     {
       path: "/quiz",
       name: "QuizPage",
-      component: () => import("@/views/QuizView.vue"),
-    },
-    {
-      path: "/skattejagt/kort",
-      name: "kort",
-      component: () => import("@/views/TreasuremapView.vue"),
-    },
+      component: () => import("@/views/QuizView.vue")
+    }
   ],
 });
 
