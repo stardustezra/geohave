@@ -35,7 +35,13 @@ const router = createRouter({
       path: "/quiz",
       name: "QuizPage",
       component: () => import("@/views/QuizView.vue")
-    }
+    },
+    {
+      // Catch-all route for unmatched routes
+      path: "/:catchAll(.*)",
+      name: "404Page",
+      component: NotFoundView
+    },
   ],
 });
 
