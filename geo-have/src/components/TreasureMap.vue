@@ -1,5 +1,5 @@
 <template>
-  <MapInfobox @showTreasureArea="showTreasureAreaPopup" />
+  <MapInfobox />
 </template>
 
 <script setup>
@@ -11,7 +11,8 @@ import MapInfobox from "./MapInfobox.vue";
 
 const initialMap = ref(null);
 let arrowMarker = null; // Reference to the arrow marker
-let treasureAreaCircle = null; // Reference to the treasure area circle
+let treasureAreaCircle1 = null; // Reference to the first treasure area circle
+let treasureAreaCircle2 = null; // Reference to the second treasure area circle
 
 onMounted(() => {
   // Create the map
@@ -39,6 +40,20 @@ onMounted(() => {
 
         // Center map at user's position without changing zoom level
         initialMap.value.panTo([latitude, longitude]);
+
+        // Update treasure area position to hardcoded values
+        if (treasureAreaCircle1) {
+          treasureAreaCircle1.setLatLng([55.4043, 10.37975]);
+        } else {
+          // Create treasure area if it doesn't exist
+          createTreasureArea1([55.4043, 10.37975]);
+        }
+
+        if (treasureAreaCircle2) {
+          treasureAreaCircle2.setLatLng([55.40328, 10.3784]);
+        } else {
+          createTreasureArea2([55.40328, 10.3784]);
+        }
       },
       (error) => {
         console.error("Error getting geolocation:", error);
@@ -59,25 +74,30 @@ onMounted(() => {
     }).addTo(initialMap.value);
   }
 
-  // Function to create treasure area circle
-  function createTreasureArea(coordinates) {
-    treasureAreaCircle = L.circle(coordinates, {
+  // Function to create first treasure area circle
+  function createTreasureArea1(coordinates) {
+    treasureAreaCircle1 = L.circle(coordinates, {
       color: "blue",
       fillColor: "#add8e6",
       fillOpacity: 0.5,
       radius: 20, // Adjust radius as needed
     }).addTo(initialMap.value);
-    treasureAreaCircle.bindPopup("Treasure area!", {
+    treasureAreaCircle1.bindPopup("Treasure area 1!", {
       className: "popup-style",
     }); // Add custom popup style
   }
 
-  // Function to show treasure area popup
-  const showTreasureAreaPopup = () => {
-    if (!treasureAreaCircle) {
-      // Create treasure area if it doesn't exist
-      createTreasureArea([55.4043, 10.37975]);
-    }
-  };
+  // Function to create second treasure area circle
+  function createTreasureArea2(coordinates) {
+    treasureAreaCircle2 = L.circle(coordinates, {
+      color: "green",
+      fillColor: "#90EE90",
+      fillOpacity: 0.5,
+      radius: 20, // Adjust radius as needed
+    }).addTo(initialMap.value);
+    treasureAreaCircle2.bindPopup("Treasure area 2!", {
+      className: "popup-style",
+    }); // Add custom popup style
+  }
 });
 </script>
