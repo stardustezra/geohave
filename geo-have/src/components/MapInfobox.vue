@@ -7,11 +7,38 @@
         På din enhed vil du kunne se forskellig områder. Disse skal du udforske,
         og når du finder skatten vil du få en opgave inden du får dine point.
       </p>
+      <button @click="toggleTreasureAreas">Vis Skat</button>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const showTreasureAreas = ref(false);
+
+function toggleTreasureAreas() {
+  showTreasureAreas.value = !showTreasureAreas.value;
+  // Toggle visibility of treasure areas based on showTreasureAreas value
+  if (showTreasureAreas.value) {
+    showTreasure();
+  } else {
+    hideTreasure();
+  }
+}
+
+function showTreasure() {
+  // Show the treasure areas
+  if (treasureAreaCircle1) treasureAreaCircle1.setStyle({ opacity: 1 });
+  if (treasureAreaCircle2) treasureAreaCircle2.setStyle({ opacity: 1 });
+}
+
+function hideTreasure() {
+  // Hide the treasure areas
+  if (treasureAreaCircle1) treasureAreaCircle1.setStyle({ opacity: 0 });
+  if (treasureAreaCircle2) treasureAreaCircle2.setStyle({ opacity: 0 });
+}
+</script>
 
 <style scoped>
 .map-container {
@@ -39,5 +66,9 @@
   border-radius: 20px 20px 0 0; /* Set border radius to 20px */
   z-index: 1000; /* Ensure the info box is above the map */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+button {
+  margin-top: 10px;
 }
 </style>
