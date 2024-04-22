@@ -2,43 +2,13 @@
   <div class="map-container">
     <div id="map" class="map"></div>
     <div class="info-box">
-      <h2>Tryk videre til næste opgave</h2>
-      <p>
-        På din enhed vil du kunne se forskellig områder. Disse skal du udforske,
-        og når du finder skatten vil du få en opgave inden du får dine point.
-      </p>
-      <button @click="toggleTreasureAreas">Vis Skat</button>
+      <h2>Treasure Map</h2>
+      <p>This is your treasure map. Explore and find the hidden treasure!</p>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-
-const showTreasureAreas = ref(false);
-
-function toggleTreasureAreas() {
-  showTreasureAreas.value = !showTreasureAreas.value;
-  // Toggle visibility of treasure areas based on showTreasureAreas value
-  if (showTreasureAreas.value) {
-    showTreasure();
-  } else {
-    hideTreasure();
-  }
-}
-
-function showTreasure() {
-  // Show the treasure areas
-  if (treasureAreaCircle1) treasureAreaCircle1.setStyle({ opacity: 1 });
-  if (treasureAreaCircle2) treasureAreaCircle2.setStyle({ opacity: 1 });
-}
-
-function hideTreasure() {
-  // Hide the treasure areas
-  if (treasureAreaCircle1) treasureAreaCircle1.setStyle({ opacity: 0 });
-  if (treasureAreaCircle2) treasureAreaCircle2.setStyle({ opacity: 0 });
-}
-</script>
+<script setup></script>
 
 <style scoped>
 .map-container {
@@ -57,18 +27,12 @@ function hideTreasure() {
 
 .info-box {
   position: absolute; /* Position the info box absolutely */
-  top: 70%; /* Center vertically */
-  left: 0;
-  width: 100%; /* Take up full width of the screen */
-  height: 30%; /* Set height to 30% of the screen */
+  bottom: 10px; /* Adjust bottom position as needed */
+  left: 10px; /* Adjust left position as needed */
   background-color: var(--background-color);
-  padding: 20px;
-  border-radius: 20px 20px 0 0; /* Set border radius to 20px */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Ensure the info box is above the map */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-button {
-  margin-top: 10px;
 }
 </style>
