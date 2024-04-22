@@ -2,8 +2,8 @@
     <main class="app">
         <h1>Quiz!</h1>
         <span class="score">
-                    {{ score }}/{{ questions.length }}
-                </span>
+            {{ score }}/{{ currentQuestions.length }}
+        </span>
         <section class="quiz" v-if="!quizCompleted">
             <div class="quiz-info">
                 <span class="question">
@@ -38,7 +38,7 @@
                 @click="nextQuestion" 
                 :disabled="!getCurrentQuestion.selected">
                 {{ 
-                    getCurrentQuestion.index == questions.length - 1
+                    getCurrentQuestion.index == currentQuestions.length - 1
                     ? 'Næste'
                     : getCurrentQuestion.selected == null 
                         ? 'Select an option'
@@ -49,7 +49,7 @@
 
         <section v-else>
             <h2>You have finished the quiz!</h2>
-            <p>Your score is {{ score }}/{{ questions.length }}</p>
+            <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
         </section>
     </main>
 </template>
@@ -57,7 +57,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-const questions = ref([
+const questions1 = [
     {
         question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
         answer: 1,
@@ -69,13 +69,30 @@ const questions = ref([
         ], 
         selected: null 
     },
-]);
+];
 
+const questions2 = [
+    {
+        question: "Hvilken slags blomst er Solbrud?",
+        answer: 1,
+        options: [
+            'En rose',
+            'En solsikke',
+            'En nellike',
+            'En tulipan'
+        ], 
+        selected: null 
+    },
+];
+
+let currentQuestions = ref(questions1);
 const quizCompleted = ref(false);
 const currentQuestion = ref(0);
+const currentQuiz = ref(1); // 1 for quiz 1, 2 for quiz 2
+
 const score = computed(() => {
     let value = 0;
-    questions.value.forEach(q => {
+    currentQuestions.value.forEach(q => {
         if (q.selected === q.answer) {
             value++;
         }
@@ -84,23 +101,30 @@ const score = computed(() => {
 });
 
 const getCurrentQuestion = computed (() => {
-    let question = questions.value[currentQuestion.value];
+    let question = currentQuestions.value[currentQuestion.value];
     question.index = currentQuestion.value;
     return question;
 });
 
 const setAnswer = (e) => {
-    questions.value[currentQuestion.value].selected = parseInt(e.target.value);
+    currentQuestions.value[currentQuestion.value].selected = parseInt(e.target.value);
 };
 
 const nextQuestion = () => {
-    if (currentQuestion.value < questions.value.length - 1) {
+    if (currentQuestion.value < currentQuestions.value.length - 2) {
         currentQuestion.value++;
     } else {
-        quizCompleted.value = true;
+        if (currentQuiz.value === 1) {
+            currentQuiz.value = 2;
+            currentQuestions.value = questions2;
+            currentQuestion.value = 0;
+        } else {
+            quizCompleted.value = true;
+        }
     }
 };
 </script>
+
 
 
 <style scoped>
