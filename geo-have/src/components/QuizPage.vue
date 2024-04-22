@@ -74,12 +74,12 @@ const questions1 = [
 const questions2 = [
     {
         question: "Hvilken slags blomst er Solbrud?",
-        answer: 1,
+        answer: 3,
         options: [
             'En rose',
-            'En solsikke',
+            'En tulipan',
             'En nellike',
-            'En tulipan'
+            'En solsikke'
         ], 
         selected: null 
     },
