@@ -2,7 +2,6 @@
   <div class="point-shop-item">
       <div class="point-shop-item-point">
         {{ points }}</div>
-      <div class="point-shop-item-cost"></div>
       <div class="point-shop-item-icon">
         <img v-if="icon === 'soda'"
           src="../assets/icons/Soda.svg"
