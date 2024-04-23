@@ -1,13 +1,16 @@
 <template>
+  <!-- Map container with map and info box -->
   <div class="map-container">
     <div id="map" class="map"></div>
     <div class="info-box">
+      <!-- Heading and description -->
       <h2>Tryk videre til næste opgave</h2>
       <p>
         På din enhed vil du kunne se forskellige områder. Disse skal du
         udforske, og når du finder skatten, vil du få en opgave, før du får dine
         point.
       </p>
+      <!-- Button to toggle treasure areas and navigate to next area -->
       <button @click="toggleTreasureAreas">Vis Skat</button>
       <button @click="showNextArea">Next</button>
     </div>
@@ -20,6 +23,7 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 
+// Define variables and refs
 const initialMap = ref(null);
 let arrowMarker = null;
 let treasureAreaCircle1 = null;
@@ -27,6 +31,7 @@ let treasureAreaCircle2 = null;
 const showTreasureArea1 = ref(false);
 const showTreasureArea2 = ref(false);
 
+// Function to toggle visibility of treasure areas
 function toggleTreasureAreas() {
   showTreasureArea1.value = !showTreasureArea1.value;
   if (showTreasureArea1.value) {
@@ -36,6 +41,7 @@ function toggleTreasureAreas() {
   }
 }
 
+// Function to show treasure area and update its style
 function showTreasure(area) {
   if (area === 1 && treasureAreaCircle1) {
     treasureAreaCircle1.setStyle({ opacity: 1, fillOpacity: 0.5 });
@@ -44,6 +50,7 @@ function showTreasure(area) {
   }
 }
 
+// Function to hide treasure area and update its style
 function hideTreasure(area) {
   if (area === 1 && treasureAreaCircle1) {
     treasureAreaCircle1.setStyle({ opacity: 0, fillOpacity: 0 });
@@ -52,33 +59,41 @@ function hideTreasure(area) {
   }
 }
 
+// Function to show next treasure area
 function showNextArea() {
   hideTreasure(1); // Hide area 1
   showTreasureArea2.value = true;
   showTreasure(2); // Show area 2
 }
 
+// Perform actions when component is mounted
 onMounted(() => {
+  // Initialize map
   initialMap.value = L.map("map").setView([0, 0], 20);
 
+  // Add tile layer to map
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
   }).addTo(initialMap.value);
 
+  // Check geolocation support and watch position
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
 
+        // Update arrow marker position
         if (!arrowMarker) {
           createArrowMarker([latitude, longitude]);
         } else {
           arrowMarker.setLatLng([latitude, longitude]);
         }
 
+        // Pan map to current position
         initialMap.value.panTo([latitude, longitude]);
 
+        // Set treasure area positions
         if (treasureAreaCircle1) {
           treasureAreaCircle1.setLatLng([55.4043, 10.37975]);
         } else {
@@ -99,6 +114,7 @@ onMounted(() => {
     console.error("Geolocation is not supported by your browser");
   }
 
+  // Function to create arrow marker
   function createArrowMarker(coordinates) {
     arrowMarker = L.marker(coordinates, {
       icon: L.icon({
@@ -108,6 +124,7 @@ onMounted(() => {
     }).addTo(initialMap.value);
   }
 
+  // Function to create treasure area 1
   function createTreasureArea1(coordinates) {
     treasureAreaCircle1 = L.circle(coordinates, {
       color: "blue",
@@ -121,6 +138,7 @@ onMounted(() => {
     hideTreasure(1);
   }
 
+  // Function to create treasure area 2
   function createTreasureArea2(coordinates) {
     treasureAreaCircle2 = L.circle(coordinates, {
       color: "green",
@@ -137,11 +155,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Styles for map container */
 .map-container {
   position: relative;
   flex: 1;
 }
 
+/* Styles for map */
 .map {
   position: absolute;
   height: 100%;
@@ -151,6 +171,7 @@ onMounted(() => {
   bottom: 0;
 }
 
+/* Styles for info box */
 .info-box {
   position: absolute;
   top: 70%;
@@ -164,6 +185,7 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
+/* Styles for buttons */
 button {
   margin-top: 10px;
 }
