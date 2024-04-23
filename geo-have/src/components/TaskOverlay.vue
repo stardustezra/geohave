@@ -1,7 +1,7 @@
 <template>
   <div class="overlay-wrapper">
     <div class="wrapper">
-      <h3>Skattejagtens begyndelse</h3>
+      <h2>Skattejagtens begyndelse</h2>
       <p class="paragraph">
         Når du er klar til at udforske og finde skatten, skal du holde øje med
         QR-koder langs din vej. Du kan bruge kameraikonet til at scanne
@@ -12,18 +12,25 @@
       </div>
     </div>
   </div>
-  <TaskModal @close="toggleModal" :modalActive="modalActive">
-    <div class="modal-content"></div>
-  </TaskModal>
+  <!-- modal component -->
+  <Modal @close="toggleModal" :modalActive="modalActive">
+    <div class="modal-content">
+      <img src="@/assets/images/paradisaebletrae.png" alt="apple tree" />
+      <h3>Find paradisæbletræ</h3>
+<h4>Hint:</h4>
+  <p>Søg efter et sted, hvor den gamle mur står vagt, og
+  dragerne danser i vinden.</p>
+    </div>
+  </Modal>
 </template>
 
 <script>
-import TaskModal from "./TaskModal.vue";
+import Modal from "./Modal.vue";
 import { ref } from "vue";
 export default {
   name: "TaskOverlay",
   components: {
-    TaskModal,
+    Modal,
   },
   setup() {
     const modalActive = ref(false);
@@ -43,7 +50,7 @@ export default {
   left: 0;
   width: 100%;
   height: 35%;
-  background-color: white;
+  background-color: var(--background-color);
   z-index: 999; /* Ensure it's above other content */
   display: flex;
   border-radius: 20px 20px 0px 0px;
@@ -57,9 +64,11 @@ export default {
   padding: 2em;
 }
 
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+img {
+  border-radius: 4px;
+}
+
+h2 {
   font-weight: bold;
 }
 
@@ -76,10 +85,34 @@ button {
   border: none;
   border-radius: 4px;
   width: 100%;
-  text-align: left;
 }
 
 button:hover {
   background-color: var(--btn-on-click-green);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+
+  h3, p {
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-family: "Kamerom", serif;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  p {
+    font-size: 12px;
+  }
 }
 </style>
