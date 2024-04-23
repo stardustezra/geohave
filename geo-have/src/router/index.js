@@ -1,3 +1,4 @@
+import { inMemoryPersistence } from "firebase/auth";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 // import { name } from "newrelic/lib/symbols";
@@ -44,6 +45,13 @@ const router = createRouter({
       path: "/skattejagt/kort",
       name: "kort",
       component: () => import("@/views/TreasuremapView.vue"),
+    },
+    {
+      path: "/PointSystem",
+      name: "Point",
+      component: () => import("@/views/PointView.vue"),
+
+
     },
   ],
 });
