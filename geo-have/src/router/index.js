@@ -55,6 +55,11 @@ const router = createRouter({
 
 
     },
+    {
+      path: "/opgave",
+      name: "opgave",
+      component: () => import("@/views/OverlayView.vue"),
+    },
   ],
 });
 
