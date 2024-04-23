@@ -19,6 +19,11 @@ export default {
           <span @click="close" class="material-symbols-outlined"></span>
           <!-- modal content -->
           <img src="../assets/images/paradisaebletrae.png" alt="Task Image" />
+          <h3>Find paradis æbletræ</h3>
+          <p>
+            <b>Hint:</b> Søg efter et sted, hvor den gamle mur står vagt, og
+            dragerne danser i vinden.
+          </p>
           <slot />
           <button @click="close" type="button">Close</button>
         </div>
@@ -27,20 +32,21 @@ export default {
   </transition>
 
   <div class="modal-wrapper"></div>
-
-  <button @click="isOpen = true">Open Modal</button>
-  <div v-if="showModal" class="modal">
-    <div class="modal-content">
-      <span class="close" @click="isOpen = false">&times;</span>
-      <img src="../assets/images/paradisaebletrae.png" alt="Task Image" />
-      <h2>{{ task.name }}</h2>
-      <p>{{ task.description }}</p>
-      <button @click="closeModal">Close</button>
-    </div>
-  </div>
 </template>
 
 <style>
+.modal {
+  position: fixed;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  background-image: linear-gradient(#87a669, #2c5e36);
+}
+
+img {
+  width: 80%;
+  height: auto;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;

@@ -2,19 +2,8 @@
   <!-- Map container with map and info box -->
   <div class="map-container">
     <div id="map" class="map"></div>
-    <div class="info-box">
-      <!-- Heading and description -->
-      <h2>Tryk videre til næste opgave</h2>
-      <p>
-        På din enhed vil du kunne se forskellige områder. Disse skal du
-        udforske, og når du finder skatten, vil du få en opgave, før du får dine
-        point.
-      </p>
-      <!-- Button to toggle treasure areas and navigate to next area -->
-      <button @click="toggleTreasureAreas">Vis Skat</button>
-      <button @click="showNextArea">Next</button>
-    </div>
   </div>
+  <TaskOverlay />
 </template>
 
 <script setup>
@@ -22,6 +11,7 @@ import { ref, onMounted } from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
+import TaskOverlay from "@/components/TaskOverlay.vue";
 
 // Define variables and refs
 const initialMap = ref(null);

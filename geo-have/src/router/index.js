@@ -48,8 +48,8 @@ const router = createRouter({
       component: NotFoundView,
     },
     {
-      path: "/PointSystem",
-      name: "Point",
+      path: "/pointshop",
+      name: "pointshop",
       component: () => import("@/views/PointView.vue"),
     },
     {

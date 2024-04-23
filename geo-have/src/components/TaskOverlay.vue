@@ -8,16 +8,13 @@
         QR-koderne og afsløre ledetråde, der fører dig nærmere skatten.
       </p>
       <div>
-        <TaskModal @close="toggleModal" :modalActive="modalActive">
-          <div class="modal-content">
-            <h2>This is my modal</h2>
-            <p>My modal message</p>
-          </div>
-        </TaskModal>
         <button @click="toggleModal" type="button">1. OPGAVE</button>
       </div>
     </div>
   </div>
+  <TaskModal @close="toggleModal" :modalActive="modalActive">
+    <div class="modal-content"></div>
+  </TaskModal>
 </template>
 
 <script>
