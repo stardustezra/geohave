@@ -27,7 +27,7 @@
         <router-link to="/signup">Opret konto</router-link>
       </p>
       <p class="guest-link">
-        <router-link to="/skattejagt">Fortsæt som gæst</router-link>
+        <router-link to="/skattejagt" @click="handleContinueAsGuest">Fortsæt som gæst</router-link>
       </p>
     </div>
     <hr />
@@ -44,14 +44,25 @@
 <script setup>
 import { ref } from "vue";
 import { signIn } from "@/services/AuthService";
+import signInAnonymously from '../services/signInAnonymously';
+import { useRouter } from "vue-router"; 
 
 const email = ref("");
 const password = ref("");
 const errMsg = ref("");
+const router = useRouter(); 
+
 const onSubmitForm = () => {
   signIn(email.value, password.value, errMsg);
 };
+
+const handleContinueAsGuest = async () => {
+  await signInAnonymously();
+  // Redirect to skattejagt after anonymous login
+  router.push('/skattejagt'); 
+};
 </script>
+
 
 <style scoped>
 .wrapper {
