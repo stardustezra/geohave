@@ -50,7 +50,7 @@ import { ref, onMounted } from 'vue'
 import {db} from '@/configs/firebase'
 import { collection,addDoc, updateDoc, doc, getDocs } from "firebase/firestore";
 
-const UserId = "1";//todo: laves om til global 
+const UserId = "1";//todo: laves om til global ( hentes fra login )
 const PointShopItemsOnline = ref([]);
 const PointShopTransactionsOnline = ref([]);
 const UserPointsOnline = ref(0);
