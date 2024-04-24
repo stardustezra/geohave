@@ -39,7 +39,7 @@
                 :disabled="!getCurrentQuestion.selected">
                 {{ 
                     getCurrentQuestion.index == currentQuestions.length - 1
-                    ? 'Næste'
+                    ? 'Finish'
                     : getCurrentQuestion.selected == null 
                         ? 'Select an option'
                         : 'Next question'
@@ -57,7 +57,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-const questions1 = [
+const questions = [
     {
         question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
         answer: 1,
@@ -71,24 +71,9 @@ const questions1 = [
     },
 ];
 
-const questions2 = [
-    {
-        question: "Hvilken slags blomst er Solbrud?",
-        answer: 3,
-        options: [
-            'En rose',
-            'En tulipan',
-            'En nellike',
-            'En solsikke'
-        ], 
-        selected: null 
-    },
-];
-
-let currentQuestions = ref(questions1);
+let currentQuestions = ref(questions);
 const quizCompleted = ref(false);
 const currentQuestion = ref(0);
-const currentQuiz = ref(1); // 1 for quiz 1, 2 for quiz 2
 
 const score = computed(() => {
     let value = 0;
@@ -111,21 +96,13 @@ const setAnswer = (e) => {
 };
 
 const nextQuestion = () => {
-    if (currentQuestion.value < currentQuestions.value.length - 2) {
+    if (currentQuestion.value < currentQuestions.value.length - 1) {
         currentQuestion.value++;
     } else {
-        if (currentQuiz.value === 1) {
-            currentQuiz.value = 2;
-            currentQuestions.value = questions2;
-            currentQuestion.value = 0;
-        } else {
-            quizCompleted.value = true;
-        }
+        quizCompleted.value = true;
     }
 };
 </script>
-
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');

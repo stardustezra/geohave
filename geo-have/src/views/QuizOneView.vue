@@ -1,11 +1,11 @@
 <template>
   <Navbar />
-  <QuizPage />
+  <QuizOne />
 </template>
 
 <script setup>
 import Navbar from "@/components/Navbar.vue";
-import QuizPage from "../components/QuizPage.vue";
+import QuizOne from "../components/QuizOne.vue";
 </script>
 
 <style scoped></style>
