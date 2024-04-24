@@ -1,20 +1,19 @@
-<script>
-export default {
-  name: "modalActive",
-  props: ["modalActive"],
-  setup(props, { emit }) {
-    const close = () => {
-      emit("close");
-    };
+<script setup>
+const emit = defineEmits(["close", "okClicked", "handleOuterClick"]);
+const props = defineProps(["modalActive"]);
+const close = () => {
+  emit("close");
+};
 
-    const handleOuterClick = (event) => {
-      if (event.target.classList.contains("modal")) {
-        close();
-      }
-    };
+const handleOuterClick = (event) => {
+  if (event.target.classList.contains("modal")) {
+    close();
+  }
+};
 
-    return { close, handleOuterClick };
-  },
+const okClicked = () => {
+  emit("okClicked");
+  close();
 };
 </script>
 
@@ -25,7 +24,7 @@ export default {
         <div v-show="modalActive" class="modal-inner" @click.stop>
           <!-- import modal component and insert content -->
           <slot />
-          <button @click="close" type="button">OK</button>
+          <button @click="okClicked" type="button">OK</button>
         </div>
       </transition>
     </div>
