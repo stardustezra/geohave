@@ -44,7 +44,7 @@ watch(points, () => {
 
 <template>
   <div class="wrapper">
-    <h2 class="quiz">Quiz</h2>
+    <h1>Quiz!</h1>
     <div class="point-obtained">
       <h2>Points Optjent</h2>
     </div>
@@ -77,8 +77,16 @@ watch(points, () => {
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 2rem;
+  height: 100vh;
+  margin-top: 60px;
+}
+
+h1 {
+  font-family: "Stag";
+  font-weight: 900;
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 
 .quiz {
@@ -90,6 +98,7 @@ watch(points, () => {
 .point-obtained {
   font-family: "Stag", sans-serif;
   font-weight: normal;
+  text-align: center;
 }
 
 .points {

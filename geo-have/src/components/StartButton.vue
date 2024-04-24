@@ -1,28 +1,29 @@
 <template>
-<div class="start-button-container">
+  <div class="start-button-container">
     <div class="start-button">
+      <router-link to="/skattejagt/kort">
         <button>START JAGTEN</button>
+      </router-link>
     </div>
-</div>
+  </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
 .start-button-container {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   height: 200px;
 }
 
 .start-button {
   width: 201px;
   height: 74px;
-  background-color: #87A669;
+  background-color: #87a669;
   border: none;
   border-radius: 4px;
   display: flex;

@@ -1,9 +1,11 @@
 <template>
   <header :class="{ 'scrolled-nav': scrollPosition }">
     <nav>
-      <div class="nav-logo">
-        <img :src="Geoh" alt="logo" />
-      </div>
+      <router-link to="/">
+        <div class="nav-logo">
+          <img :src="Geoh" alt="logo" />
+        </div>
+      </router-link>
       <div class="ticket">
         <img :src="Ticket" alt="ticket" />
       </div>
@@ -31,6 +33,9 @@
         </li>
         <li>
           <router-link to="/pointshop">Point Shop</router-link>
+        </li>
+        <li>
+          <router-link to="/skattejagt">Skattejagt</router-link>
         </li>
         <li v-if="authenticated" @click="signOut">Log ud</li>
       </ul>
@@ -158,6 +163,9 @@ nav {
   padding: 5px 0;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  z-index: 9999;
 }
 
 .dropdown-menu li {
@@ -171,7 +179,7 @@ nav {
 }
 
 .dropdown-menu li:hover {
-  background-color: #fae284;
+  background-color: red;
 }
 
 /* Initial state of the spans */
