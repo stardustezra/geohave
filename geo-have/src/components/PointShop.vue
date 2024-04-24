@@ -48,8 +48,8 @@
   import { ref, onMounted } from 'vue' 
   import {db} from '@/configs/firebase'
   import { collection,addDoc, updateDoc, doc, getDocs } from "firebase/firestore";
+  import router from "@/router";
 
-  
   const UserId = "1";//todo: laves om til global 
   const PointShopItemsOnline = ref([]);
   const PointShopTransactionsOnline = ref([]);
@@ -96,8 +96,10 @@
         PointShopItemId: pointShopItemId,
         UserId: UserId
       });
-  
+
       //TODO: Move to reward page
+
+      router.push('/collect'); 
     }
     else {
       displayPopup.value = true;
@@ -108,7 +110,6 @@
     displayPopup.value = false;
   }
   
-  
   </script>
   
   <style scoped>
@@ -117,7 +118,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
   }
   
   .pointshop-header {
