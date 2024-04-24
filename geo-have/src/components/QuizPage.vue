@@ -125,11 +125,6 @@ const nextQuestion = () => {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
-@font-face {
-  font-family: "Stag";
-  src: url("../assets/fonts/stag_regular.ttf") format("truetype");
-}
-
 .app {
   display: flex;
   flex-direction: column;
@@ -139,8 +134,8 @@ const nextQuestion = () => {
 }
 
 h1 {
-  font-family: "Stag";
-  font-weight: 900;
+  font-family: "Kameron", serif;
+  font-weight: bold;
   font-size: 36px;
   margin-bottom: 10px;
 }
