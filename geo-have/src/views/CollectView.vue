@@ -1,6 +1,6 @@
 <template>
     <Navbar/>
-    <CollectPrize />
+    <CollectPrize/>
 </template>
 
 <script setup>

@@ -30,7 +30,7 @@
           <router-link to="/signin">Log ind</router-link>
         </li>
         <li>
-          <router-link to="/pointshop">Point Shop</router-link>
+          <router-link to="/PointSystem">Point Shop</router-link>
         </li>
         <li v-if="authenticated" @click="signOut">Log ud</li>
       </ul>
