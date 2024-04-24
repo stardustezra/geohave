@@ -99,7 +99,7 @@ const nextQuestion = () => {
     if (currentQuestion.value < currentQuestions.value.length - 1) {
         currentQuestion.value++;
     } else {
-        quizCompleted.value = true;
+        window.location.href = 'quiz/points';
     }
 };
 </script>

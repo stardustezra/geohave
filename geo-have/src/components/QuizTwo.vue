@@ -39,7 +39,7 @@
                 :disabled="!getCurrentQuestion.selected">
                 {{ 
                     getCurrentQuestion.index == currentQuestions.length - 1
-                    ? 'Næste'
+                    ? 'Færdig'
                     : getCurrentQuestion.selected == null 
                         ? 'Select an option'
                         : 'Next question'
@@ -50,6 +50,9 @@
         <section v-else>
             <h2>You have finished the quiz!</h2>
             <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
+            <router-link to="/pointshop">
+                <button>Gå til shop</button>
+            </router-link>
         </section>
     </main>
 </template>
@@ -102,6 +105,7 @@ const nextQuestion = () => {
         quizCompleted.value = true;
     }
 };
+
 </script>
 
 <style scoped>
