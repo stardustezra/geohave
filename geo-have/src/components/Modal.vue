@@ -6,7 +6,14 @@ export default {
     const close = () => {
       emit("close");
     };
-    return { close };
+
+    const handleOuterClick = (event) => {
+      if (event.target.classList.contains("modal")) {
+        close();
+      }
+    };
+
+    return { close, handleOuterClick };
   },
 };
 </script>
@@ -15,8 +22,7 @@ export default {
   <transition name="modal-animation">
     <div v-show="modalActive" class="modal">
       <transition name="modal-animation-inner">
-        <div v-show="modalActive" class="modal-inner">
-          <span @click="close" class="material-symbols-outlined"></span>
+        <div v-show="modalActive" class="modal-inner" @click.stop>
           <!-- import modal component and insert content -->
           <slot />
           <button @click="close" type="button">OK</button>
@@ -56,7 +62,7 @@ export default {
 
 .modal-animation-enter-active,
 .modal-animation-leave-active {
-  transition: opacity .3s cubic-bezier(.52, .02, .19, 1.02);
+  transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
 }
 
 .modal-animation-enter-from,
@@ -65,11 +71,11 @@ export default {
 }
 
 .modal-animation-inner-enter-active {
-  transition: all .3s cubic-bezier(.52, .02, .19, 1.02) 0.15s;
+  transition: all 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02) 0.15s;
 }
 
 .modal-animation-inner-leave-active {
-  transition: all .3s cubic-bezier(.52, .02, .19, 1.02);
+  transition: all 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
 }
 
 .modal-animation-inner-enter-from {
@@ -90,6 +96,8 @@ button {
   border-radius: 4px;
   font-family: "Kamerom", serif;
   font-size: 20px;
+  margin: auto;
+  display: block;
 }
 
 button:hover {

@@ -17,9 +17,11 @@
     <div class="modal-content">
       <img src="@/assets/images/paradisaebletrae.png" alt="apple tree" />
       <h3>Find paradisæbletræ</h3>
-<h4>Hint:</h4>
-  <p>Søg efter et sted, hvor den gamle mur står vagt, og
-  dragerne danser i vinden.</p>
+      <h4>Hint:</h4>
+      <p>
+        Søg efter et sted, hvor den gamle mur står vagt, og dragerne danser i
+        vinden.
+      </p>
     </div>
   </Modal>
 </template>
@@ -85,6 +87,7 @@ button {
   border: none;
   border-radius: 4px;
   width: 100%;
+  text-align: left;
 }
 
 button:hover {
@@ -95,7 +98,8 @@ button:hover {
   display: flex;
   flex-direction: column;
 
-  h3, p {
+  h3,
+  p {
     margin-bottom: 1rem;
   }
 
@@ -104,6 +108,7 @@ button:hover {
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   h4 {
