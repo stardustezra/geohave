@@ -58,6 +58,11 @@ const router = createRouter({
       component: () => import("@/views/PointView.vue"),
     },
     {
+      path: "/NotCorrect",
+      name: "NotCorrect",
+      component: () => import("@/views/NotCorrectView.vue"),
+    },
+    {
       path: "/opgave",
       name: "opgave",
       component: () => import("@/views/OverlayView.vue"),

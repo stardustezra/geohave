@@ -35,11 +35,11 @@
             </div>
             <button 
                 v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
-                @click="nextQuestion" 
+                @click="finishQuiz"
                 :disabled="!getCurrentQuestion.selected">
                 {{ 
                     getCurrentQuestion.index == currentQuestions.length - 1
-                    ? 'Finish'
+                    ? 'Færdig'
                     : getCurrentQuestion.selected == null 
                         ? 'Select an option'
                         : 'Next question'
@@ -50,12 +50,18 @@
         <section v-else>
             <h2>You have finished the quiz!</h2>
             <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
+            <router-link to="/pointshop">
+                <button>Gå til shop</button>
+            </router-link>
         </section>
     </main>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const questions = [
     {
@@ -96,12 +102,22 @@ const setAnswer = (e) => {
 };
 
 const nextQuestion = () => {
-    if (currentQuestion.value < currentQuestions.value.length - 1) {
+    if (currentQuestion.value < currentQuestions.value.length - 2) {
         currentQuestion.value++;
     } else {
-        window.location.href = 'quiz/points';
+        quizCompleted.value = true;
     }
 };
+
+const finishQuiz = () => {
+    const isCorrect = getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
+    if (isCorrect) {
+        router.push('/quiz/points');  // Navigate to PointsView.vue
+    } else {
+        router.push('/NotCorrect'); // Navigate to NotCorrect.vue
+    }
+};
+
 </script>
 
 <style scoped>

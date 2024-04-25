@@ -35,7 +35,7 @@
             </div>
             <button 
                 v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
-                @click="nextQuestion" 
+                @click="finishQuiz"
                 :disabled="!getCurrentQuestion.selected">
                 {{ 
                     getCurrentQuestion.index == currentQuestions.length - 1
@@ -59,6 +59,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const questions = [
     {
@@ -68,7 +71,7 @@ const questions = [
             'En rose',
             'En tulipan',
             'En nellike',
-            'En solsikke'
+            'En solsikke' //Correct answer
         ], 
         selected: null 
     },
@@ -105,6 +108,18 @@ const nextQuestion = () => {
         quizCompleted.value = true;
     }
 };
+
+const finishQuiz = () => {
+    const isCorrect = getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
+    console.log("Is correct:", isCorrect);
+    if (isCorrect) {
+        router.push('/quiz/points');  // Navigate to PointsView.vue
+    } else {
+        console.log("Navigating to /NotCorrect");
+        router.push('/NotCorrect'); // Navigate to NotCorrect.vue
+    }
+};
+
 
 </script>
 
