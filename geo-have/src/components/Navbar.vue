@@ -32,7 +32,7 @@
           <router-link to="/signin">Log ind</router-link>
         </li>
         <li>
-          <router-link to="/PointSystem">Point Shop</router-link>
+          <router-link to="/pointshop">Point Shop</router-link>
         </li>
         <li>
           <router-link to="/skattejagt">Skattejagt</router-link>
@@ -126,7 +126,7 @@ nav {
   height: 70px;
   justify-content: center;
   align-items: center;
-  .material-icons{
+  .material-icons {
     color: #fff;
     font-size: 45px;
   }
@@ -274,7 +274,6 @@ nav {
     width: 180px; /* Mindre end før */
     height: 70px; /* Mindre end før */
   }
-
 
   .nav-icon span {
     height: 2px; /* Adjust thickness as needed */
