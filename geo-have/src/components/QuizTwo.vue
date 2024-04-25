@@ -1,129 +1,125 @@
 <template>
     <main class="app">
-        <h1>Quiz!</h1>
-        <span class="score">
-            {{ score }}/{{ currentQuestions.length }}
-        </span>
-        <section class="quiz" v-if="!quizCompleted">
-            <div class="quiz-info">
-                <span class="question">
-                    {{ getCurrentQuestion.question }}
-                </span>
-            </div>
-
-            <div class="options">
-                <label
-                    v-for="(option, index) in getCurrentQuestion.options"
-                    :key="index + 1" 
-                    :class="`option ${
-                        getCurrentQuestion.selected == index + 1 // Tilføj 1 for at matche det nye indeks
-                        ? index + 1 == getCurrentQuestion.answer
-                            ? 'correct'
-                            : 'wrong'
-                        : ''
-                    }${
-                        getCurrentQuestion.selected != null &&
-                        index + 1 != getCurrentQuestion.selected
-                        ? 'disabled'
-                        : ''
-                    }`"
-                    >
-                    <input
-                        type="radio"
-                        :name="getCurrentQuestion.index"
-                        :value="index + 1" 
-                        v-model="getCurrentQuestion.selected"
-                        :disabled="getCurrentQuestion.selected"
-                        @change="setAnswer"
-                    />
-                <span>{{ option }}</span>
-                </label>
-
-            </div>
-            <button 
-                v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
-                @click="finishQuiz"
-                :disabled="!getCurrentQuestion.selected">
-                {{ 
-                    getCurrentQuestion.index == currentQuestions.length - 1
-                    ? 'Færdig'
-                    : getCurrentQuestion.selected == null 
-                        ? 'Select an option'
-                        : 'Next question'
-                }}
-            </button>
-        </section>
-
-        <section v-else>
-            <h2>You have finished the quiz!</h2>
-            <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
-            <router-link to="/pointshop">
-                <button>Gå til shop</button>
-            </router-link>
-        </section>
+      <h1>Quiz!</h1>
+      <span class="score">
+        {{ score }}/{{ currentQuestions.length }}
+      </span>
+      <section class="quiz" v-if="!quizCompleted">
+        <div class="quiz-info">
+          <span class="question">
+            {{ getCurrentQuestion.question }}
+          </span>
+        </div>
+  
+        <div class="options">
+          <label
+            v-for="(option, index) in getCurrentQuestion.options"
+            :key="index + 1"
+            :class="`option ${
+              getCurrentQuestion.selected == index + 1
+                ? index + 1 == getCurrentQuestion.answer
+                  ? 'correct'
+                  : 'wrong'
+                : ''
+            }${
+              getCurrentQuestion.selected != null &&
+              index + 1 != getCurrentQuestion.selected
+                ? 'disabled'
+                : ''
+            }`"
+          >
+            <input
+              type="radio"
+              :name="getCurrentQuestion.index"
+              :value="index + 1"
+              v-model="getCurrentQuestion.selected"
+              :disabled="getCurrentQuestion.selected"
+              @change="setAnswer"
+            />
+            <span>{{ option }}</span>
+          </label>
+        </div>
+        <button
+          v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
+          @click="finishQuiz"
+          :disabled="!getCurrentQuestion.selected"
+        >
+          {{
+            getCurrentQuestion.index == currentQuestions.length - 1
+              ? 'Færdig'
+              : getCurrentQuestion.selected == null
+              ? 'Select an option'
+              : 'Next question'
+          }}
+        </button>
+      </section>
+  
+      <section v-else>
+        <h2>You have finished the quiz!</h2>
+        <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
+        <router-link to="/pointshop">
+          <button>Gå til shop</button>
+        </router-link>
+      </section>
+  
+      <!-- Betinget visning af teksten "Solbrud er ikke en sol" -->
+      <div class="box" v-if="getCurrentQuestion.index === 0 && getCurrentQuestion.selected !== null && getCurrentQuestion.selected !== getCurrentQuestion.answer">
+        <p>Det rigtige svar er <strong style="color: #2C5E36; font-weight: bold;">en solsikke</strong>.</p>
+      </div>
     </main>
-</template>
-
-<script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-
-const questions = [
+  </template>
+  
+  <script setup>
+  import { ref, computed } from 'vue';
+  import { useRouter } from 'vue-router';
+  
+  const router = useRouter();
+  
+  const questions = [
     {
-        question: "Hvilken slags blomst er Solbrud?",
-        answer: 4,
-        options: ["En rose", "En tulipan", "En nellike", "En solsikke"], 
-        selected: null 
+      question: 'Hvilken slags blomst er Solbrud?',
+      answer: 4,
+      options: ['En rose', 'En tulipan', 'En nellike', 'En solsikke'],
+      selected: null,
     },
-];
-
-let currentQuestions = ref(questions);
-const quizCompleted = ref(false);
-const currentQuestion = ref(0);
-
-const score = computed(() => {
+  ];
+  
+  let currentQuestions = ref(questions);
+  const quizCompleted = ref(false);
+  const currentQuestion = ref(0);
+  
+  const score = computed(() => {
     let value = 0;
-    currentQuestions.value.forEach(q => {
-        if (q.selected === q.answer) {
-            value++;
-        }
+    currentQuestions.value.forEach((q) => {
+      if (q.selected === q.answer) {
+        value++;
+      }
     });
     return value;
-});
-
-const getCurrentQuestion = computed (() => {
+  });
+  
+  const getCurrentQuestion = computed(() => {
     let question = currentQuestions.value[currentQuestion.value];
     question.index = currentQuestion.value;
     return question;
-});
-
-const setAnswer = (e) => {
-    currentQuestions.value[currentQuestion.value].selected = parseInt(e.target.value);
-};
-
-const nextQuestion = () => {
-    if (currentQuestion.value < currentQuestions.value.length - 2) {
-        currentQuestion.value++;
-    } else {
-        quizCompleted.value = true;
-    }
-};
-
-const finishQuiz = () => {
-    const isCorrect = getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
-    console.log("Is correct:", isCorrect);
+  });
+  
+  const setAnswer = (e) => {
+    currentQuestions.value[currentQuestion.value].selected = parseInt(
+      e.target.value
+    );
+  };
+  
+  const finishQuiz = () => {
+    const isCorrect =
+      getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
     if (isCorrect) {
-        router.push('/quiz/points');  // Navigate to PointsView.vue
+      router.push('/quiz/points'); // Navigate to PointsView.vue
     } else {
-        console.log("Navigating to /NotCorrect");
-        router.push('/NotCorrect'); // Navigate to NotCorrect.vue
+      router.push('/pointshop'); // Navigate to Pointshop
     }
-};
-
-
-</script>
+  };
+  </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');

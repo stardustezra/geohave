@@ -72,12 +72,6 @@ const router = createRouter({
       path: "/opgave",
       name: "opgave",
       component: () => import("@/views/OverlayView.vue"),
-    },
-
-    {
-      path:"/collect",
-      name: "Collect",
-      component: () => import("@/views/CollectView.vue")
     }
   ],
 });

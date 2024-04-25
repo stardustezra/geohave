@@ -45,7 +45,7 @@
       >
         {{
           getCurrentQuestion.index == currentQuestions.length - 1
-            ? "Færdig"
+            ? "Forsæt jagten"
             : getCurrentQuestion.selected == null
             ? "Select an option"
             : "Next question"
@@ -60,6 +60,11 @@
         <button>Gå til shop</button>
       </router-link>
     </section>
+
+    <div class="box" v-if="getCurrentQuestion.index === 0 && getCurrentQuestion.selected !== null && getCurrentQuestion.selected !== getCurrentQuestion.answer">
+        <p>Det rigtige svar er <strong style="color: #2C5E36; font-weight: bold;">foråret</strong>.</p>
+      </div>
+
   </main>
 </template>
 
@@ -119,7 +124,7 @@ const finishQuiz = () => {
   if (isCorrect) {
     router.push("/quiz/points"); // Navigate to PointsView.vue
   } else {
-    router.push("/NotCorrect"); // Navigate to NotCorrect.vue
+    router.push("/"); // Change to map 2
   }
 };
 </script>
