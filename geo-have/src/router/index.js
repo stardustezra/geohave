@@ -64,9 +64,9 @@ const router = createRouter({
       component: () => import("@/views/PointView.vue"),
     },
     {
-      path: "/NotCorrect",
-      name: "NotCorrect",
-      component: () => import("@/views/NotCorrectView.vue"),
+      path:"/collect",
+      name: "Collect",
+      component: () => import("@/views/CollectView.vue")
     },
     {
       path: "/opgave",
