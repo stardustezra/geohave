@@ -33,7 +33,7 @@
 <script setup>
 import Modal from "./Modal.vue";
 import { ref } from "vue";
-const emit = defineEmits(["toggleTreasureAreas"]);
+const emit = defineEmits(["toggleTreasureAreas", "handleOuterClick"]);
 
 const modalActive = ref(false);
 

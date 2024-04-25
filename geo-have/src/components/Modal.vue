@@ -7,6 +7,7 @@ const close = () => {
 
 const handleOuterClick = (event) => {
   if (event.target.classList.contains("modal")) {
+    emit("handleOuterClick");
     close();
   }
 };
