@@ -11,31 +11,32 @@
 
       <div class="options">
         <label
-          v-for="(option, index) in getCurrentQuestion.options"
-          :key="index"
-          :class="`option ${
-            getCurrentQuestion.selected == index
-              ? index == getCurrentQuestion.answer
-                ? 'correct'
-                : 'wrong'
-              : ''
-          }${
-            getCurrentQuestion.selected != null &&
-            index != getCurrentQuestion.selected
-              ? 'disabled'
-              : ''
-          }`"
-        >
-          <input
-            type="radio"
-            :name="getCurrentQuestion.index"
-            :value="index"
-            v-model="getCurrentQuestion.selected"
-            :disabled="getCurrentQuestion.selected"
-            @change="setAnswer"
-          />
-          <span>{{ option }}</span>
+            v-for="(option, index) in getCurrentQuestion.options"
+            :key="index + 1" 
+            :class="`option ${
+                getCurrentQuestion.selected == index + 1 // Tilføj 1 for at matche det nye indeks
+                ? index + 1 == getCurrentQuestion.answer
+                    ? 'correct'
+                    : 'wrong'
+                : ''
+            }${
+                getCurrentQuestion.selected != null &&
+                index + 1 != getCurrentQuestion.selected
+                ? 'disabled'
+                : ''
+            }`"
+            >
+            <input
+                type="radio"
+                :name="getCurrentQuestion.index"
+                :value="index + 1"
+                v-model="getCurrentQuestion.selected"
+                :disabled="getCurrentQuestion.selected"
+                @change="setAnswer"
+            />
+            <span>{{ option }}</span>
         </label>
+
       </div>
       <button
         v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
@@ -71,11 +72,12 @@ const router = useRouter();
 const questions = [
   {
     question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
-    answer: 1,
-    options: ["Sommer", "Forår", "Efterår", "Vinter"],
+    answer: 2, // Opdateret til 1
+    options: ["Sommer", "Forår", "Efterår", "Vinter"], // Opdateret til at starte fra indeks 1
     selected: null,
   },
 ];
+
 
 let currentQuestions = ref(questions);
 const quizCompleted = ref(false);

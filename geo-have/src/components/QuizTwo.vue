@@ -12,26 +12,33 @@
             </div>
 
             <div class="options">
-                <label v-for="(option, index) in getCurrentQuestion.options" 
-                    :key="index"
+                <label
+                    v-for="(option, index) in getCurrentQuestion.options"
+                    :key="index + 1" 
                     :class="`option ${
-                        getCurrentQuestion.selected == index
-                        ? index == getCurrentQuestion.answer
-                            ? 'correct' : 'wrong' : ''
+                        getCurrentQuestion.selected == index + 1 // Tilføj 1 for at matche det nye indeks
+                        ? index + 1 == getCurrentQuestion.answer
+                            ? 'correct'
+                            : 'wrong'
+                        : ''
                     }${
                         getCurrentQuestion.selected != null &&
-                        index != getCurrentQuestion.selected
-                            ? 'disabled'
-                            : ''
-                    }`">
-                    <input type="radio" 
+                        index + 1 != getCurrentQuestion.selected
+                        ? 'disabled'
+                        : ''
+                    }`"
+                    >
+                    <input
+                        type="radio"
                         :name="getCurrentQuestion.index"
-                        :value="index"
+                        :value="index + 1" 
                         v-model="getCurrentQuestion.selected"
                         :disabled="getCurrentQuestion.selected"
-                        @change="setAnswer">
-                    <span>{{ option }}</span>
+                        @change="setAnswer"
+                    />
+                <span>{{ option }}</span>
                 </label>
+
             </div>
             <button 
                 v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
@@ -66,13 +73,8 @@ const router = useRouter();
 const questions = [
     {
         question: "Hvilken slags blomst er Solbrud?",
-        answer: 3,
-        options: [
-            'En rose',
-            'En tulipan',
-            'En nellike',
-            'En solsikke' //Correct answer
-        ], 
+        answer: 4,
+        options: ["En rose", "En tulipan", "En nellike", "En solsikke"], 
         selected: null 
     },
 ];
