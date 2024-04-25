@@ -3,7 +3,7 @@
   <div class="map-container">
     <div id="map" class="map"></div>
   </div>
-  <TaskOverlay />
+  <TaskOverlay @toggleTreasureAreas="toggleTreasureAreas" />
 </template>
 
 <script setup>
@@ -29,6 +29,7 @@ function toggleTreasureAreas() {
   } else {
     hideTreasure(1);
   }
+  console.log("Treasure areas toggled");
 }
 
 // Function to show treasure area and update its style
@@ -69,6 +70,8 @@ onMounted(() => {
 
   // Check geolocation support and watch position
   if ("geolocation" in navigator) {
+    let isFirstRender = true;
+
     navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -80,8 +83,11 @@ onMounted(() => {
           arrowMarker.setLatLng([latitude, longitude]);
         }
 
-        // Pan map to current position
-        initialMap.value.panTo([latitude, longitude]);
+        // Pan map to current position (fjern if)
+        if (isFirstRender) {
+          isFirstRender = false;
+          initialMap.value.panTo([latitude, longitude]);
+        }
 
         // Set treasure area positions
         if (treasureAreaCircle1) {

@@ -13,7 +13,11 @@
     </div>
   </div>
   <!-- modal component -->
-  <Modal @close="toggleModal" :modalActive="modalActive">
+  <Modal
+    @close="toggleModal"
+    @okClicked="toggleTreasureAreas"
+    :modalActive="modalActive"
+  >
     <div class="modal-content">
       <img src="@/assets/images/paradisaebletrae.png" alt="apple tree" />
       <h3>Find paradisæbletræ</h3>
@@ -26,22 +30,19 @@
   </Modal>
 </template>
 
-<script>
+<script setup>
 import Modal from "./Modal.vue";
 import { ref } from "vue";
-export default {
-  name: "TaskOverlay",
-  components: {
-    Modal,
-  },
-  setup() {
-    const modalActive = ref(false);
+const emit = defineEmits(["toggleTreasureAreas", "handleOuterClick"]);
 
-    const toggleModal = () => {
-      modalActive.value = !modalActive.value;
-    };
-    return { modalActive, toggleModal };
-  },
+const modalActive = ref(false);
+
+const toggleModal = () => {
+  modalActive.value = !modalActive.value;
+};
+
+const toggleTreasureAreas = () => {
+  emit("toggleTreasureAreas");
 };
 </script>
 
