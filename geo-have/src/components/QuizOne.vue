@@ -11,31 +11,32 @@
 
       <div class="options">
         <label
-          v-for="(option, index) in getCurrentQuestion.options"
-          :key="index"
-          :class="`option ${
-            getCurrentQuestion.selected == index
-              ? index == getCurrentQuestion.answer
-                ? 'correct'
-                : 'wrong'
-              : ''
-          }${
-            getCurrentQuestion.selected != null &&
-            index != getCurrentQuestion.selected
-              ? 'disabled'
-              : ''
-          }`"
-        >
-          <input
-            type="radio"
-            :name="getCurrentQuestion.index"
-            :value="index"
-            v-model="getCurrentQuestion.selected"
-            :disabled="getCurrentQuestion.selected"
-            @change="setAnswer"
-          />
-          <span>{{ option }}</span>
+            v-for="(option, index) in getCurrentQuestion.options"
+            :key="index + 1" 
+            :class="`option ${
+                getCurrentQuestion.selected == index + 1 // Tilføj 1 for at matche det nye indeks
+                ? index + 1 == getCurrentQuestion.answer
+                    ? 'correct'
+                    : 'wrong'
+                : ''
+            }${
+                getCurrentQuestion.selected != null &&
+                index + 1 != getCurrentQuestion.selected
+                ? 'disabled'
+                : ''
+            }`"
+            >
+            <input
+                type="radio"
+                :name="getCurrentQuestion.index"
+                :value="index + 1"
+                v-model="getCurrentQuestion.selected"
+                :disabled="getCurrentQuestion.selected"
+                @change="setAnswer"
+            />
+            <span>{{ option }}</span>
         </label>
+
       </div>
       <button
         v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
@@ -44,7 +45,7 @@
       >
         {{
           getCurrentQuestion.index == currentQuestions.length - 1
-            ? "Færdig"
+            ? "Forsæt jagten"
             : getCurrentQuestion.selected == null
             ? "Select an option"
             : "Next question"
@@ -59,6 +60,11 @@
         <button>Gå til shop</button>
       </router-link>
     </section>
+
+    <div class="box" v-if="getCurrentQuestion.index === 0 && getCurrentQuestion.selected !== null && getCurrentQuestion.selected !== getCurrentQuestion.answer">
+        <p class="correct-answer">Det korrekte svar er <strong style="color: #2C5E36; font-weight: bold;">foråret</strong>.</p>
+      </div>
+
   </main>
 </template>
 
@@ -68,19 +74,22 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+// Define quiz questions with their options and correct answers
 const questions = [
   {
     question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
-    answer: 1,
-    options: ["Sommer", "Forår", "Efterår", "Vinter"],
-    selected: null,
+    answer: 2, 
+    options: ["Sommer", "Forår", "Efterår", "Vinter"], 
+    selected: null, 
   },
 ];
 
-let currentQuestions = ref(questions);
-const quizCompleted = ref(false);
-const currentQuestion = ref(0);
+// Define reactive variables to manage the quiz state
+let currentQuestions = ref(questions); 
+const quizCompleted = ref(false); 
+const currentQuestion = ref(0); 
 
+// Compute the user's score based on selected answers
 const score = computed(() => {
   let value = 0;
   currentQuestions.value.forEach((q) => {
@@ -91,33 +100,28 @@ const score = computed(() => {
   return value;
 });
 
+// Compute the current question being displayed
 const getCurrentQuestion = computed(() => {
   let question = currentQuestions.value[currentQuestion.value];
   question.index = currentQuestion.value;
   return question;
 });
 
+// Function to set the selected answer for the current question
 const setAnswer = (e) => {
   currentQuestions.value[currentQuestion.value].selected = parseInt(
     e.target.value
   );
 };
 
-const nextQuestion = () => {
-  if (currentQuestion.value < currentQuestions.value.length - 2) {
-    currentQuestion.value++;
-  } else {
-    quizCompleted.value = true;
-  }
-};
-
+// Function to finish the quiz and navigate to the appropriate route
 const finishQuiz = () => {
   const isCorrect =
     getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
   if (isCorrect) {
-    router.push("/quiz/points"); // Navigate to PointsView.vue
+    router.push("/quiz/points");
   } else {
-    router.push("/NotCorrect"); // Navigate to NotCorrect.vue
+    router.push("/"); // Navigate to map 2 if answer is incorrect
   }
 };
 </script>
@@ -251,5 +255,10 @@ p {
   color: #000;
   font-size: 1rem;
   text-align: center;
+}
+
+.correct-answer{
+  font-size: 24px; 
+  margin-top: 30px;
 }
 </style>

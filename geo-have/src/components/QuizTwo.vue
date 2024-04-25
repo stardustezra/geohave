@@ -12,16 +12,16 @@
       <div class="options">
         <label
           v-for="(option, index) in getCurrentQuestion.options"
-          :key="index"
+          :key="index + 1"
           :class="`option ${
-            getCurrentQuestion.selected == index
-              ? index == getCurrentQuestion.answer
+            getCurrentQuestion.selected == index + 1
+              ? index + 1 == getCurrentQuestion.answer
                 ? 'correct'
                 : 'wrong'
               : ''
           }${
             getCurrentQuestion.selected != null &&
-            index != getCurrentQuestion.selected
+            index + 1 != getCurrentQuestion.selected
               ? 'disabled'
               : ''
           }`"
@@ -29,7 +29,7 @@
           <input
             type="radio"
             :name="getCurrentQuestion.index"
-            :value="index"
+            :value="index + 1"
             v-model="getCurrentQuestion.selected"
             :disabled="getCurrentQuestion.selected"
             @change="setAnswer"
@@ -59,6 +59,21 @@
         <button>Gå til shop</button>
       </router-link>
     </section>
+
+    <!-- Betinget visning af teksten "Solbrud er ikke en sol" -->
+    <div
+      class="box"
+      v-if="
+        getCurrentQuestion.index === 0 &&
+        getCurrentQuestion.selected !== null &&
+        getCurrentQuestion.selected !== getCurrentQuestion.answer
+      "
+    >
+      <p class="correct-answer">
+        Det korrekte svar er
+        <strong style="color: #2c5e36; font-weight: bold">en solsikke</strong>.
+      </p>
+    </div>
   </main>
 </template>
 
@@ -71,13 +86,8 @@ const router = useRouter();
 const questions = [
   {
     question: "Hvilken slags blomst er Solbrud?",
-    answer: 3,
-    options: [
-      "En rose",
-      "En tulipan",
-      "En nellike",
-      "En solsikke", //Correct answer
-    ],
+    answer: 4,
+    options: ["En rose", "En tulipan", "En nellike", "En solsikke"],
     selected: null,
   },
 ];
@@ -108,23 +118,13 @@ const setAnswer = (e) => {
   );
 };
 
-const nextQuestion = () => {
-  if (currentQuestion.value < currentQuestions.value.length - 2) {
-    currentQuestion.value++;
-  } else {
-    quizCompleted.value = true;
-  }
-};
-
 const finishQuiz = () => {
   const isCorrect =
     getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
-  console.log("Is correct:", isCorrect);
   if (isCorrect) {
     router.push("/quiz/points"); // Navigate to PointsView.vue
   } else {
-    console.log("Navigating to /NotCorrect");
-    router.push("/NotCorrect"); // Navigate to NotCorrect.vue
+    router.push("/pointshop"); // Navigate to Pointshop
   }
 };
 </script>
@@ -258,5 +258,10 @@ p {
   color: #000;
   font-size: 1rem;
   text-align: center;
+}
+
+.correct-answer {
+  font-size: 24px;
+  margin-top: 30px;
 }
 </style>
