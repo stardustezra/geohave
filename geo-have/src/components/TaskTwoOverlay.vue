@@ -20,7 +20,7 @@
   >
     <div class="modal-content">
       <img src="@/assets/images/paradisaebletrae.png" alt="apple tree" />
-      <h3 class="title">Find paradisæbletræ</h3>
+      <h3 class="title">Find en Solbrud</h3>
       <h4>Hint:</h4>
       <p>
         Søg efter et sted, hvor den gamle mur står vagt, og dragerne danser i

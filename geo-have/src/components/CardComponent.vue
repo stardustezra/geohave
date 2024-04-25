@@ -29,12 +29,6 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "Stag";
-  src: url("../assets/fonts/stag_regular.ttf") format("truetype");
-  /* You can include more font formats for better browser support */
-}
-
 /* Define your card styles here */
 .card {
   background-color: #fef9ea;
@@ -51,7 +45,7 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 }
 
 .card-header h1 {
-  font-family: "Stag", sans-serif; /* Use custom font */
+  font-family: "Kameron", serif; /* Use custom font */
   font-size: 24px; /* Set font size */
 }
 

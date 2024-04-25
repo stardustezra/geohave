@@ -1,6 +1,11 @@
 <script setup>
+import router from "@/router";
 import { ref, onMounted, watch } from "vue";
 import ConfettiExplosion from "vue-confetti-explosion";
+
+const goToNextTask = () => {
+  router.push("/skattejagt/kort");
+};
 
 const points = ref(0);
 
@@ -56,12 +61,12 @@ watch(points, () => {
           <span class="points"> + {{ points }} Point</span>
         </div>
       </div>
-      <button>Næste</button>
+      <button @click="goToNextTask">Næste</button>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .wrapper {
   display: flex;
   flex-direction: column;

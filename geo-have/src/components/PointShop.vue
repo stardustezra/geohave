@@ -196,11 +196,6 @@ function closePopup() {
   }
 }
 
-@font-face {
-  font-family: "Stag";
-  src: url("../assets/fonts/stag_bold.ttf") format("truetype");
-}
-
 .small-text {
   font-size: 10px;
   margin-top: 5px;
