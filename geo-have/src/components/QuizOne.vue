@@ -39,12 +39,12 @@
       </div>
       <button
         v-show="getCurrentQuestion.selected !== null || quizCompleted.value"
-        @click="nextQuestion"
+        @click="finishQuiz"
         :disabled="!getCurrentQuestion.selected"
       >
         {{
           getCurrentQuestion.index == currentQuestions.length - 1
-            ? "Næste"
+            ? "Færdig"
             : getCurrentQuestion.selected == null
             ? "Select an option"
             : "Next question"
@@ -55,14 +55,20 @@
     <section v-else>
       <h2>You have finished the quiz!</h2>
       <p>Your score is {{ score }}/{{ currentQuestions.length }}</p>
+      <router-link to="/pointshop">
+        <button>Gå til shop</button>
+      </router-link>
     </section>
   </main>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
-const questions1 = [
+const router = useRouter();
+
+const questions = [
   {
     question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
     answer: 1,
@@ -71,19 +77,9 @@ const questions1 = [
   },
 ];
 
-const questions2 = [
-  {
-    question: "Hvilken slags blomst er Solbrud?",
-    answer: 3,
-    options: ["En rose", "En tulipan", "En nellike", "En solsikke"],
-    selected: null,
-  },
-];
-
-let currentQuestions = ref(questions1);
+let currentQuestions = ref(questions);
 const quizCompleted = ref(false);
 const currentQuestion = ref(0);
-const currentQuiz = ref(1); // 1 for quiz 1, 2 for quiz 2
 
 const score = computed(() => {
   let value = 0;
@@ -111,19 +107,28 @@ const nextQuestion = () => {
   if (currentQuestion.value < currentQuestions.value.length - 2) {
     currentQuestion.value++;
   } else {
-    if (currentQuiz.value === 1) {
-      currentQuiz.value = 2;
-      currentQuestions.value = questions2;
-      currentQuestion.value = 0;
-    } else {
-      quizCompleted.value = true;
-    }
+    quizCompleted.value = true;
+  }
+};
+
+const finishQuiz = () => {
+  const isCorrect =
+    getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
+  if (isCorrect) {
+    router.push("/quiz/points"); // Navigate to PointsView.vue
+  } else {
+    router.push("/NotCorrect"); // Navigate to NotCorrect.vue
   }
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+@font-face {
+  font-family: "Stag";
+  src: url("../assets/fonts/stag_regular.ttf") format("truetype");
+}
 
 .app {
   display: flex;
@@ -134,8 +139,8 @@ const nextQuestion = () => {
 }
 
 h1 {
-  font-family: "Kameron", serif;
-  font-weight: bold;
+  font-family: "Stag";
+  font-weight: 900;
   font-size: 36px;
   margin-bottom: 10px;
 }

@@ -37,9 +37,14 @@ const router = createRouter({
     },
 
     {
-      path: "/quiz",
-      name: "QuizPage",
-      component: () => import("@/views/QuizView.vue"),
+      path: "/quizOne",
+      name: "QuizOne",
+      component: () => import("@/views/QuizOneView.vue"),
+    },
+    {
+      path: "/quizTwo",
+      name: "QuizTwo",
+      component: () => import("@/views/QuizTwoView.vue"),
     },
 
     {
@@ -57,6 +62,11 @@ const router = createRouter({
       path: "/pointshop",
       name: "pointshop",
       component: () => import("@/views/PointView.vue"),
+    },
+    {
+      path: "/NotCorrect",
+      name: "NotCorrect",
+      component: () => import("@/views/NotCorrectView.vue"),
     },
     {
       path: "/opgave",
