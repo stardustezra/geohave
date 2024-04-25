@@ -8,7 +8,7 @@
         <img :src="Ticket" alt="ticket" />
       </div>
       <div class="search-icon">
-        <img :src="Search" alt="search" />
+        <i class="material-icons">search</i>
       </div>
       <div
         :class="{ open: isOpen }"
@@ -30,7 +30,7 @@
           <router-link to="/signin">Log ind</router-link>
         </li>
         <li>
-          <router-link to="/pointshop">Point Shop</router-link>
+          <router-link to="/PointSystem">Point Shop</router-link>
         </li>
         <li v-if="authenticated" @click="signOut">Log ud</li>
       </ul>
@@ -121,6 +121,10 @@ nav {
   height: 70px;
   justify-content: center;
   align-items: center;
+  .material-icons{
+    color: #fff;
+    font-size: 45px;
+  }
 }
 
 .search-icon img {
@@ -263,13 +267,6 @@ nav {
     height: 70px; /* Mindre end før */
   }
 
-  .search-icon {
-    display: flex;
-    height: 50px;
-    justify-content: center;
-    align-items: center;
-    margin-right: -10px;
-  }
 
   .nav-icon span {
     height: 2px; /* Adjust thickness as needed */

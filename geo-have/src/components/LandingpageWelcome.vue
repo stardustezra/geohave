@@ -2,15 +2,15 @@
     <div class="centered">
       <div class="LandingpageButtons">
         <router-link to="/skattejagt" class="btn">
-             <img class="icon" src="../assets/icons/Map.svg" alt="Start jagten">
+          <i class="material-icons">map</i>
              Start jagten
         </router-link>
         <button class="btn">
-          <img class="icon" src="../assets/icons/Treasure.svg" alt="Læs om præmier icon">
+          <i class="material-icons">emoji_events</i> 
           Læs om præmier
         </button>
         <button class="btn">
-          <img class="icon" src="../assets/icons/questionmark.png" alt="Hjælp og support icon" style="width: 15px; height: 20px;">
+          <i class="material-icons">question_mark</i> 
           Hjælp og support
         </button>
       </div>
@@ -64,10 +64,8 @@
     font-weight: 700;
 }
   
-.icon {
-    margin-right: 7px;
-    width: 20px;
-}
+
+
   
 .caption {
     color: #000; 
@@ -103,5 +101,7 @@
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
 }
+
+
 </style>
   

@@ -28,6 +28,17 @@
       <PointShopIthem v-for="item in PointShopItemsOnline" :key="item.id" :icon="item.icon" :points="item.cost" :text="item.text" :uses="PointShopTransactionsOnline.filter(x => x.PointShopItemId === item.id).length" :max="item.max" @click="makeTransaction(item.id,item.cost,item.max)"/>
     </div>
   </div>
+
+<div v-if="displayPopup" class="popup-back-style">
+  <div class="popup-window-style">
+    <h2>Du har brugt alle dine points</h2>
+    <div>
+      <p class="popup-hint">Hint:</p>
+      <p> Du kan først bruge eller optjene efter næste sæson.</p>
+    </div>
+    <button class="popup-button-style" @click="closePopup()">OK</button>
+  </div>
+</div>
   
   </template>
   
@@ -37,7 +48,8 @@
   import { ref, onMounted } from 'vue' 
   import {db} from '@/configs/firebase'
   import { collection,addDoc, updateDoc, doc, getDocs } from "firebase/firestore";
-  
+  import router from "@/router";
+
   const UserId = "1";//todo: laves om til global 
   const PointShopItemsOnline = ref([]);
   const PointShopTransactionsOnline = ref([]);
@@ -84,8 +96,10 @@
         PointShopItemId: pointShopItemId,
         UserId: UserId
       });
-  
+
       //TODO: Move to reward page
+
+      router.push('/collect'); 
     }
     else {
       displayPopup.value = true;
@@ -96,7 +110,6 @@
     displayPopup.value = false;
   }
   
-  
   </script>
   
   <style scoped>
@@ -105,7 +118,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
   }
   
   .pointshop-header {

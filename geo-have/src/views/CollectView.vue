@@ -1,10 +1,10 @@
 <template>
-    <Menu />
-    <CollectPrize />
+    <Navbar/>
+    <CollectPrize/>
 </template>
 
 <script setup>
-import Menu from "@/components/Menu.vue";
+import Navbar from "@/components/Navbar.vue";
 import CollectPrize from "@/components/CollectPrize.vue";
 
 </script>

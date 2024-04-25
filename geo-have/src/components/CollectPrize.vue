@@ -23,6 +23,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 
+
 const router = useRouter();
 
 const goToHome = () => {
@@ -105,7 +106,7 @@ hr {
     display: block; 
     margin: 0 auto; 
     margin-top: 30px;
-    border: 2px solid black;
+    margin-bottom: 30px;
 }
 
 
