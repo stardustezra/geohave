@@ -74,20 +74,22 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+// Define quiz questions with their options and correct answers
 const questions = [
   {
     question: "Hvilken årstid blomstrer kinesisk Paradisæbletræ?",
-    answer: 2, // Opdateret til 1
-    options: ["Sommer", "Forår", "Efterår", "Vinter"], // Opdateret til at starte fra indeks 1
-    selected: null,
+    answer: 2, 
+    options: ["Sommer", "Forår", "Efterår", "Vinter"], 
+    selected: null, 
   },
 ];
 
+// Define reactive variables to manage the quiz state
+let currentQuestions = ref(questions); 
+const quizCompleted = ref(false); 
+const currentQuestion = ref(0); 
 
-let currentQuestions = ref(questions);
-const quizCompleted = ref(false);
-const currentQuestion = ref(0);
-
+// Compute the user's score based on selected answers
 const score = computed(() => {
   let value = 0;
   currentQuestions.value.forEach((q) => {
@@ -98,33 +100,28 @@ const score = computed(() => {
   return value;
 });
 
+// Compute the current question being displayed
 const getCurrentQuestion = computed(() => {
   let question = currentQuestions.value[currentQuestion.value];
   question.index = currentQuestion.value;
   return question;
 });
 
+// Function to set the selected answer for the current question
 const setAnswer = (e) => {
   currentQuestions.value[currentQuestion.value].selected = parseInt(
     e.target.value
   );
 };
 
-const nextQuestion = () => {
-  if (currentQuestion.value < currentQuestions.value.length - 2) {
-    currentQuestion.value++;
-  } else {
-    quizCompleted.value = true;
-  }
-};
-
+// Function to finish the quiz and navigate to the appropriate route
 const finishQuiz = () => {
   const isCorrect =
     getCurrentQuestion.value.selected === getCurrentQuestion.value.answer;
   if (isCorrect) {
-    router.push("/quiz/points"); // Navigate to PointsView.vue
+    router.push("/quiz/points");
   } else {
-    router.push("/"); // Change to map 2
+    router.push("/"); // Navigate to map 2 if answer is incorrect
   }
 };
 </script>
