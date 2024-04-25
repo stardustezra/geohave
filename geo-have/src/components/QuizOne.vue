@@ -266,7 +266,7 @@ p {
 }
 
 .correct-answer{
-  font-size: 24px; /* Adjust the font size as needed */
+  font-size: 24px; 
   margin-top: 30px;
 }
 </style>
