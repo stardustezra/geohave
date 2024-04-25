@@ -34,6 +34,8 @@
     <div class="socials-signin">
       <p>Log ind med</p>
       <div class="socials-icons">
+        <p><button @click="signInWithGoogle">Log ind med Google</button></p>
+        <p><button @click="signInWithFacebook">Log ind med Facebook</button></p>
         <img src="../assets/icons/facebook.svg" alt="Facebook" />
         <img src="../assets/icons/google.svg" alt="Google" />
       </div>
@@ -45,6 +47,8 @@
 import { ref } from "vue";
 import { signIn } from "@/services/AuthService";
 import signInAnonymously from '../services/signInAnonymously';
+import { signInWithGoogle } from "@/services/AuthService";
+import { signInWithFacebook } from "@/services/AuthService";
 import { useRouter } from "vue-router"; 
 
 const email = ref("");
@@ -56,6 +60,7 @@ const onSubmitForm = () => {
   signIn(email.value, password.value, errMsg);
 };
 
+// sign in anonymously
 const handleContinueAsGuest = async () => {
   await signInAnonymously();
   // Redirect to skattejagt after anonymous login

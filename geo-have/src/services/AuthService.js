@@ -5,6 +5,9 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  FacebookAuthProvider
 } from "firebase/auth";
 import router from "@/router";
 
@@ -61,4 +64,32 @@ export const signUp = async (email, password) => {
     console.log(error.code);
     alert(error.message);
   }
+};
+
+// sign in with google
+export const signInWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      console.log(result);
+      router.push("/");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  console.log('Sign in with Google');
+};
+
+// sign in with facebook
+export const signInWithFacebook = () => {
+  const provider = new FacebookAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      console.log(result);
+      router.push("/");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  console.log('Sign in with Facebook');
 };
