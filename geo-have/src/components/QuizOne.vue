@@ -62,7 +62,7 @@
     </section>
 
     <div class="box" v-if="getCurrentQuestion.index === 0 && getCurrentQuestion.selected !== null && getCurrentQuestion.selected !== getCurrentQuestion.answer">
-        <p>Det rigtige svar er <strong style="color: #2C5E36; font-weight: bold;">foråret</strong>.</p>
+        <p class="correct-answer">Det korrekte svar er <strong style="color: #2C5E36; font-weight: bold;">foråret</strong>.</p>
       </div>
 
   </main>
@@ -263,5 +263,10 @@ p {
   color: #000;
   font-size: 1rem;
   text-align: center;
+}
+
+.correct-answer{
+  font-size: 24px; /* Adjust the font size as needed */
+  margin-top: 30px;
 }
 </style>
