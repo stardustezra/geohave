@@ -9,9 +9,11 @@ import {
   signInWithPopup,
   FacebookAuthProvider
 } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import router from "@/router";
 
 const auth = getAuth();
+const db = getFirestore();
 
 export const onSignOut = async () => {
   try {
@@ -57,12 +59,30 @@ export const signIn = async (email, password, errMsg) => {
 // sign up function
 export const signUp = async (email, password) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userData = await createUserWithEmailAndPassword(auth, email, password);
+    await addUserToFirestore(userData.user.uid, email);
+
     console.log("Succesful signup!");
     router.push("/");
   } catch (error) {
     console.log(error.code);
     alert(error.message);
+  }
+};
+
+// Function to add user data to Firestore
+const addUserToFirestore = async (uid, email) => {
+  try {
+    const userRef = collection(db, "users");
+    await addDoc(userRef, {
+      uid: uid,
+      email: email,
+      // Add more user data fields as needed
+    });
+    console.log("User data added to Firestore");
+  } catch (error) {
+    console.error("Error adding user to Firestore: ", error);
+    throw error; // You may handle the error differently based on your application needs
   }
 };
 
