@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import Modal from "@/components/Modal.vue";
+//hej
 
 describe("Modal", () => {
   it("emits 'close' event when close button is clicked", async () => {
