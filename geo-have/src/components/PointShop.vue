@@ -123,10 +123,10 @@ function makeTransaction(pointShopItemId, cost, max) {
     });
 
     //TODO: Move to reward page
-    window.location.href = "/collect";
-    // router.push('/collect');
+    //window.location.href = "/collect";
+    router.push({ name: 'Collect', query: { rewardId: pointShopItemId } });
   } else {
-    displayPopup.value = true;
+    displayPopup.value = true; 
   }
 }
 
