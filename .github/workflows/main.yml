@@ -22,5 +22,5 @@ jobs:
       working-directory: ./geo-have  # Adjust the path to the correct directory
 
     - name: Run tests
-      run: npm test
+      run: npm run test:unit
       working-directory: ./geo-have  # Adjust the path to the correct directory
