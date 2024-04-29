@@ -12,7 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        path: geohave/geo-have  # Specify the correct path to your repository folder
+        path: geo-have  # Specify the correct path to your repository folder
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -21,8 +21,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: geohave/geo-have  # Set the working directory to the correct folder
+      working-directory: geo-have  # Set the working directory to the correct folder
 
     - name: Run tests
       run: npm test
-      working-directory: geohave/geo-have  # Set the working directory to the correct folder
+      working-directory: geo-have  # Set the working directory to the correct folder
