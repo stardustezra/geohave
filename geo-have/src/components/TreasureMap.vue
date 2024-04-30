@@ -12,6 +12,7 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
+import { useRouter } from "vue-router";
 
 // Define variables and refs
 const initialMap = ref(null);
@@ -20,6 +21,7 @@ let treasureAreaCircle1 = null;
 let treasureAreaCircle2 = null;
 const showTreasureArea1 = ref(false);
 const showTreasureArea2 = ref(false);
+const router = useRouter();
 
 // Function to toggle visibility of treasure areas
 function toggleTreasureAreas() {
@@ -122,15 +124,21 @@ onMounted(() => {
 
   // Function to create treasure area 1
   function createTreasureArea1(coordinates) {
-    treasureAreaCircle1 = L.circle(coordinates, {
+    const treasureAreaCircle1 = L.circle(coordinates, {
       color: "blue",
       fillColor: "#add8e6",
       fillOpacity: 0.5,
       radius: 20,
     }).addTo(initialMap.value);
+
     treasureAreaCircle1.bindPopup("Treasure area 1!", {
       className: "popup-style",
     });
+
+    treasureAreaCircle1.on("click", () => {
+      router.push({ name: "QuizOne" }); // Navigate to QuizOne route when clicked
+    });
+
     hideTreasure(1);
   }
 
