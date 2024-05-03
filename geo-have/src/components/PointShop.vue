@@ -65,7 +65,38 @@ import {
 import router from "@/router";
 
 const UserId = "1"; //todo: laves om til global
-const PointShopItemsOnline = ref([]);
+const PointShopItemsOnline = ref([
+  //_
+  {
+    id: null,
+    cost: 20,
+    icon: "soda",
+    text: "Sodavand eller egent valg",
+    max: 5
+  },
+  {
+    id: null,
+    cost: 50,
+    icon: "icecream",
+    text: "Gratis dessert efter valg",
+    max: 3
+  },
+  {
+    id: null,
+    cost: 150,
+    icon: "ticket",
+    text: "50% på næste besøg",
+    max: 1
+  },
+  {
+    id: null,
+    cost: 300,
+    icon: "lego",
+    text: "Gratis billet til Legoland",
+    max: 1
+  }
+  //-
+]);
 const PointShopTransactionsOnline = ref([]);
 const UserPointsOnline = ref(0);
 
@@ -73,12 +104,14 @@ onMounted(async () => {
   const querySnapshotPointShopItem = await getDocs(
     collection(db, "PointShopItem")
   );
+  PointShopItemsOnline.value = [];
   querySnapshotPointShopItem.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
     const item = doc.data();
     item.id = doc.id;
     PointShopItemsOnline.value.push(item);
   });
+
   const querySnapshotUserPoints = await getDocs(collection(db, "User"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
@@ -100,6 +133,12 @@ onMounted(async () => {
 const displayPopup = ref(false);
 
 function makeTransaction(pointShopItemId, cost, max) {
+  //-
+  if(pointShopItemId === null){
+    return;
+  }
+  //-
+
   if (
     UserPointsOnline.value > cost &&
     PointShopTransactionsOnline.value.filter(
@@ -122,8 +161,6 @@ function makeTransaction(pointShopItemId, cost, max) {
       UserId: UserId,
     });
 
-    //TODO: Move to reward page
-    //window.location.href = "/collect";
     router.push({ name: 'Collect', query: { rewardId: pointShopItemId } });
   } else {
     displayPopup.value = true; 
@@ -186,7 +223,6 @@ function closePopup() {
   width: 100px;
   height: 100px;
   z-index: 1;
-  color-overlay: var(--primary-yellow);
   margin-left: 20px;
   img {
     color: var(--primary-yellow);

@@ -9,6 +9,7 @@
         <img v-if="icon === 'icecream'"
           src="../assets/icons/IceCream_.svg"
         />
+        <!-- <i v-if="icon === 'ticket'" class="material-icons">confirmation_number</i> -->
         <img v-if="icon === 'ticket'"
           src="../assets/icons/Ticket.svg"
         />
