@@ -62,7 +62,7 @@ import {
   doc,
   getDocs,
 } from "firebase/firestore";
-import router from "@/router";
+// import router from "@/router";
 
 const UserId = "1"; //todo: laves om til global
 const PointShopItemsOnline = ref([]);
@@ -79,7 +79,7 @@ onMounted(async () => {
     item.id = doc.id;
     PointShopItemsOnline.value.push(item);
   });
-  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+  const querySnapshotUserPoints = await getDocs(collection(db, "users"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
     if (doc.id === UserId) {
@@ -108,7 +108,7 @@ function makeTransaction(pointShopItemId, cost, max) {
   ) {
     UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    const userRef = doc(db, "User", UserId);
+    const userRef = doc(db, "users", UserId);
     updateDoc(userRef, {
       Points: UserPointsOnline.value,
     });

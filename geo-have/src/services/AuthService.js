@@ -82,7 +82,7 @@ const addUserToFirestore = async (uid, email) => {
     console.log("User data added to Firestore");
   } catch (error) {
     console.error("Error adding user to Firestore: ", error);
-    throw error; // You may handle the error differently based on your application needs
+    throw error; //
   }
 };
 
@@ -90,7 +90,9 @@ const addUserToFirestore = async (uid, email) => {
 export const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
+      const user = result.user;
+      await addUserToFirestore(user.uid, user.email);
       console.log(result);
       router.push("/");
     })
@@ -104,7 +106,9 @@ export const signInWithGoogle = () => {
 export const signInWithFacebook = () => {
   const provider = new FacebookAuthProvider();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
+      const user = result.user;
+      await addUserToFirestore(user.uid, user.email);
       console.log(result);
       router.push("/");
     })
