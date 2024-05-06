@@ -3,7 +3,7 @@
   <div class="map-container">
     <div id="map" class="map"></div>
   </div>
-  <TaskOverlay @toggleTreasureAreas="toggleTreasureAreas" />
+  <TaskOverlay v-if="!showQuiz" @toggleTreasureAreas="toggleTreasureAreas" />
   <QuizOne v-if="showQuiz" />
 </template>
 
@@ -17,7 +17,7 @@ import QuizOne from "@/components/QuizOne.vue"; // Import QuizOne component
 // Define variables and refs
 const showQuiz = ref(false); // Add showQuiz ref and set it to false initially
 
-// Function to toggle visibility of quiz
+// Function to toggle visibility of quiz and overlay
 function toggleTreasureAreas() {
   // Simulate logic for detecting if the user is close to the treasure area
   // For demonstration purposes, we'll just set showQuiz to true after 5 seconds
