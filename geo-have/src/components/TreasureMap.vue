@@ -18,6 +18,7 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
+import { db } from "@/configs/firebase";
 
 const points = ref(20);
 
