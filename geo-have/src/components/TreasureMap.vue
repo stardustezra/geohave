@@ -1,15 +1,16 @@
 <template>
   <!-- Map container with map and info box -->
   <div class="map-container">
-    <div id="map" class="map"></div>
-  </div>
-  <TaskOverlay @toggleTreasureAreas="toggleTreasureAreas" />
-  <div class="points-counter">
+    <div class="points-counter">
         <confettiExplosion class="confetti" v-if="maxPointsReached" />
         <div class="circle" :class="{ 'pop-out': maxPointsReached }">
           <span class="points">  {{ points }} Point</span>
         </div>
       </div>
+    <div id="map" class="map"></div>
+  </div>
+  <TaskOverlay @toggleTreasureAreas="toggleTreasureAreas" />
+ 
 </template>
 
 <script setup>
@@ -214,9 +215,10 @@ onMounted(() => {
 button {
   margin-top: 10px;
 }
+
 .circle {
-  margin-top: 10em;
-  margin-bottom: 6em;
+  margin-top: 25px;
+  margin-bottom: 0px;
   position: relative;
   width: 80px;
   height: 80px;
@@ -224,17 +226,16 @@ button {
   background-color: var(--primary-yellow);
   color: black;
   font-size: 14px;
-  z-index: 9999;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
-  top: -660px; /* Flytter elementet 10 piksler ned fra sin normale posisjon */
-  left: 310px
+  left: 75%;
 
 }
 .circle span {
-  z-index: 9999;
+  z-index: 5;
   transition: 0.5s ease-in-out;
 }
 
