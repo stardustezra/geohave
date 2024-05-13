@@ -99,7 +99,6 @@ nav {
   align-items: center;
 }
 
-/* Tilpas størrelsen af logoet baseret på skærmstørrelsen */
 .nav-logo img {
   max-width: 100%;
   max-height: 100%;
@@ -107,18 +106,20 @@ nav {
 
 .ticket {
   display: flex;
-  background-color: #fae284;
-  width: 70px;
-  height: 70px;
   justify-content: center;
   align-items: center;
+  background-color: #fae284;
+  height: 70px; /* Juster højden efter behov */
+  width: 35%; /* Juster bredden efter behov */
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.ticket img,
-.search-icon img {
+.ticket img {
   max-width: 100%;
   max-height: 100%;
 }
+
 
 .search-icon {
   display: flex;
@@ -193,16 +194,16 @@ nav {
 
 .nav-icon span:nth-child(2),
 .nav-icon span:nth-child(3) {
-  top: 14px; /* Adjust the top position of spans */
+  top: 14px; /* Juster top positionen af spans */
 }
 
 .nav-icon span:nth-child(4) {
-  top: 28px; /* Adjust the top position of spans */
+  top: 28px; /* Juster top positionen af spans */
 }
 
 /* When the menu is open, transform the spans */
 .nav-icon.open span:nth-child(1) {
-  top: 14px; /* Adjust the top position of spans */
+  top: 14px; /* Juster top positionen af spans */
   width: 0%;
   left: 50%;
 }
@@ -216,7 +217,7 @@ nav {
 }
 
 .nav-icon.open span:nth-child(4) {
-  top: 14px; /* Adjust the top position of spans */
+  top: 14px; /* Juster top positionen af spans */
   width: 0%;
   left: 50%;
 }
@@ -248,32 +249,6 @@ nav {
     border-radius: 4px; /* Juster hjørneradius efter behov */
   }
 
-  .nav-logo img {
-    max-width: 190px;
-    max-height: 43px;
-    margin-right: 20px;
-  }
-
-  .ticket {
-    margin-right: 5px; /* Tilføj margen til højre for .ticket */
-  }
-
-  .ticket,
-  .search-icon {
-    height: 45px;
-    width: 105px;
-  }
-
-  .ticket img,
-  .search-icon img {
-    width: 50%; /* Mindre end før */
-    height: 50%; /* Mindre end før */
-  }
-
-  .ticket {
-    width: 180px; /* Mindre end før */
-    height: 70px; /* Mindre end før */
-  }
 
   .nav-icon span {
     height: 2px; /* Adjust thickness as needed */
@@ -294,3 +269,4 @@ nav {
   }
 }
 </style>
+
