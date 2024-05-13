@@ -9,6 +9,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: "autoUpdate",
+      registerSWPrompt: true, // Enable prompting users to install PWA
       manifest: {
         name: "Geografisk Have",
         description: "A treasure hunt app for the visitors to have fun with",
