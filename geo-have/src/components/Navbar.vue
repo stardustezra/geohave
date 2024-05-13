@@ -268,5 +268,24 @@ nav {
     top: 26px; /* Juster topafstanden for fjerde span */
   }
 }
+
+@media (min-height: 932px) and (max-height: 932px) {
+  .ticket {
+    width: 25%;
+  }
+}
+
+@media (min-height: 896px) and (max-height: 896px){
+  .ticket {
+    width: 30%;
+  }
+}
+
+@media (min-height: 740px) and (max-height: 740px){
+  .ticket {
+    width: 40%;
+  }
+}
+
 </style>
 
