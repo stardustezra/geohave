@@ -22,7 +22,7 @@ let treasureAreaCircle = null;
 const showQuiz = ref(false); // Add showQuiz ref and set it to false initially
 
 // Define treasure area coordinates
-const treasureAreaCoordinates = [55.4043, 10.37975];
+const treasureAreaCoordinates = [55.41635, 10.36994];
 // Define the radius of the treasure area (in meters)
 const treasureAreaRadius = 20;
 
