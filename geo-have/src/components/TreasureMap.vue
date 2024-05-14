@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
-import QuizOne from "@/components/QuizOne.vue"; // Import QuizOne component
+import QuizOne from "@/components/QuizOne.vue";
 
 // Define variables and refs
 const initialMap = ref(null);
