@@ -7,11 +7,13 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider
+  FacebookAuthProvider,
 } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import router from "@/router";
 
 const auth = getAuth();
+const db = getFirestore();
 
 export const onSignOut = async () => {
   try {
@@ -57,7 +59,13 @@ export const signIn = async (email, password, errMsg) => {
 // sign up function
 export const signUp = async (email, password) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userData = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await addUserToFirestore(userData.user.uid, email);
+
     console.log("Succesful signup!");
     router.push("/");
   } catch (error) {
@@ -66,30 +74,50 @@ export const signUp = async (email, password) => {
   }
 };
 
+// Function to add user data to Firestore
+const addUserToFirestore = async (uid, email) => {
+  try {
+    const userRef = collection(db, "users");
+    await addDoc(userRef, {
+      uid: uid,
+      email: email,
+      // Add more user data fields as needed
+    });
+    console.log("User data added to Firestore");
+  } catch (error) {
+    console.error("Error adding user to Firestore: ", error);
+    throw error; //
+  }
+};
+
 // sign in with google
 export const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
+      const user = result.user;
+      await addUserToFirestore(user.uid, user.email);
       console.log(result);
       router.push("/");
     })
     .catch((error) => {
       console.log(error);
     });
-  console.log('Sign in with Google');
+  console.log("Sign in with Google");
 };
 
 // sign in with facebook
 export const signInWithFacebook = () => {
   const provider = new FacebookAuthProvider();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
+      const user = result.user;
+      await addUserToFirestore(user.uid, user.email);
       console.log(result);
       router.push("/");
     })
     .catch((error) => {
       console.log(error);
     });
-  console.log('Sign in with Facebook');
+  console.log("Sign in with Facebook");
 };

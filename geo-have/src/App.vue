@@ -6,7 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 
 onMounted(async() => {
-  const querySnapshot = await getDocs(collection(db, "User"));
+  const querySnapshot = await getDocs(collection(db, "users"));
   let fbUser = []
   querySnapshot.forEach((doc) => {
     console.log(doc.id,'=>', doc.data())

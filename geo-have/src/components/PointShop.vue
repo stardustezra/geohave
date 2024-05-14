@@ -62,7 +62,7 @@ import {
   doc,
   getDocs,
 } from "firebase/firestore";
-import router from "@/router";
+// import router from "@/router";
 
 const UserId = "1"; //todo: laves om til global
 const PointShopItemsOnline = ref([
@@ -72,29 +72,29 @@ const PointShopItemsOnline = ref([
     cost: 20,
     icon: "soda",
     text: "Sodavand eller egent valg",
-    max: 5
+    max: 5,
   },
   {
     id: null,
     cost: 50,
     icon: "icecream",
     text: "Gratis dessert efter valg",
-    max: 3
+    max: 3,
   },
   {
     id: null,
     cost: 150,
     icon: "ticket",
     text: "50% på næste besøg",
-    max: 1
+    max: 1,
   },
   {
     id: null,
     cost: 300,
     icon: "lego",
     text: "Gratis billet til Legoland",
-    max: 1
-  }
+    max: 1,
+  },
   //-
 ]);
 const PointShopTransactionsOnline = ref([]);
@@ -111,8 +111,7 @@ onMounted(async () => {
     item.id = doc.id;
     PointShopItemsOnline.value.push(item);
   });
-
-  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+  const querySnapshotUserPoints = await getDocs(collection(db, "users"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
     if (doc.id === UserId) {
@@ -134,7 +133,7 @@ const displayPopup = ref(false);
 
 function makeTransaction(pointShopItemId, cost, max) {
   //-
-  if(pointShopItemId === null){
+  if (pointShopItemId === null) {
     return;
   }
   //-
@@ -147,7 +146,7 @@ function makeTransaction(pointShopItemId, cost, max) {
   ) {
     UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    const userRef = doc(db, "User", UserId);
+    const userRef = doc(db, "users", UserId);
     updateDoc(userRef, {
       Points: UserPointsOnline.value,
     });
@@ -161,9 +160,9 @@ function makeTransaction(pointShopItemId, cost, max) {
       UserId: UserId,
     });
 
-    router.push({ name: 'Collect', query: { rewardId: pointShopItemId } });
+    router.push({ name: "Collect", query: { rewardId: pointShopItemId } });
   } else {
-    displayPopup.value = true; 
+    displayPopup.value = true;
   }
 }
 
