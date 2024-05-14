@@ -15,7 +15,7 @@ const animationDuration = 1000; // milliseconds
 const pointsPerSecond = targetPoints / (animationDuration / 1000);
 let currentPoints = 0;
 
-const updatePoints = () => {
+const updatePoints = async () => {
   if (currentPoints < targetPoints) {
     currentPoints += pointsPerSecond / 60; // assuming 60 FPS
     points.value = Math.min(Math.ceil(currentPoints), targetPoints);
@@ -58,7 +58,7 @@ watch(points, () => {
       <div class="points-counter">
         <confettiExplosion class="confetti" v-if="maxPointsReached" />
         <div class="circle" :class="{ 'pop-out': maxPointsReached }">
-          <span class="points"> + {{ points }} Point</span>
+          <span class="points">{{ points }}</span>
         </div>
       </div>
       <button @click="goToNextTask">Næste</button>

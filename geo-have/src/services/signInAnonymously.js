@@ -1,15 +1,33 @@
-import { getAuth, signInAnonymously as firebaseSignInAnonymously } from 'firebase/auth';
+import {
+  getAuth,
+  signInAnonymously as firebaseSignInAnonymously,
+} from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const signInAnonymously = async () => {
   const auth = getAuth();
+  const db = getFirestore();
+
   try {
-    await firebaseSignInAnonymously(auth);
-    // Login successful, you can redirect or perform any other action here
-    console.log('Anonym login successful');
+    // sign in anonymously
+    const userCredential = await firebaseSignInAnonymously(auth);
+
+    // Get the anon user's UID
+    const { uid } = userCredential.user;
+
+    // add the anon user to Firestore
+    const userRef = collection(db, "users");
+    await addDoc(userRef, {
+      uid: uid,
+      // You can add more fields if needed
+      anonymous: true,
+    });
+
+    console.log("Anonymous login successful");
   } catch (error) {
-    console.error('Error signing in anonymously:', error);
+    console.error("Error signing in anonymously:", error);
     // Handle error here
   }
 };
 
-export default signInAnonymously; 
+export default signInAnonymously;

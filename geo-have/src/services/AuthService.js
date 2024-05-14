@@ -7,7 +7,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import router from "@/router";
@@ -59,7 +59,11 @@ export const signIn = async (email, password, errMsg) => {
 // sign up function
 export const signUp = async (email, password) => {
   try {
-    const userData = await createUserWithEmailAndPassword(auth, email, password);
+    const userData = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await addUserToFirestore(userData.user.uid, email);
 
     console.log("Succesful signup!");
@@ -99,7 +103,7 @@ export const signInWithGoogle = () => {
     .catch((error) => {
       console.log(error);
     });
-  console.log('Sign in with Google');
+  console.log("Sign in with Google");
 };
 
 // sign in with facebook
@@ -115,5 +119,5 @@ export const signInWithFacebook = () => {
     .catch((error) => {
       console.log(error);
     });
-  console.log('Sign in with Facebook');
+  console.log("Sign in with Facebook");
 };
