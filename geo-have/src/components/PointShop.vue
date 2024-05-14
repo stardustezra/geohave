@@ -196,7 +196,7 @@ function makeTransaction(pointShopItemId, cost, max) {
 
     const userRef = doc(db, "User", UserInfoRefId.value);
     updateDoc(userRef, {
-      Points: UserPointsOnline.value,
+      points: UserPointsOnline.value,
     });
 
     PointShopTransactionsOnline.value.push({

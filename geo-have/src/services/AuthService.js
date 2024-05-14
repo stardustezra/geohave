@@ -9,7 +9,7 @@ import {
   signInWithPopup,
   FacebookAuthProvider,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import router from "@/router";
 
 const auth = getAuth();
@@ -35,6 +35,9 @@ export const signIn = async (email, password, errMsg) => {
     console.log("Succesful sign in!");
     router.push("/"); // redirects to home after succesful sign in
     console.log(userData);
+
+    await addUserToFirestore(userData.user.uid, userData.user.email);
+
     return {
       uid: userData.user.uid,
     };
@@ -77,13 +80,28 @@ export const signUp = async (email, password) => {
 // Function to add user data to Firestore
 const addUserToFirestore = async (uid, email) => {
   try {
-    const userRef = collection(db, "user");
-    await addDoc(userRef, {
-      uid: uid,
-      email: email,
-      // Add more user data fields as needed
+    var createNewUserInfo = true;
+
+    const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+    querySnapshotUserPoints.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+      if (doc.data().uid === uid) {
+        createNewUserInfo = false
+      }
     });
-    console.log("User data added to Firestore");
+
+    if(createNewUserInfo){
+      const userRef = collection(db, "User");
+      await addDoc(userRef, {
+        uid: uid,
+        email: email,
+        firstname: "",
+        lastname: "",
+        phone: "",
+        points: 0
+      });
+      console.log("User data added to Firestore");
+    }
   } catch (error) {
     console.error("Error adding user to Firestore: ", error);
     throw error; //

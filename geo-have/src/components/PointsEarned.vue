@@ -13,7 +13,7 @@ const UserPointsOnline = ref(0);
 const goToNextTask = () => {
   const userRef = doc(db, "User", UserInfoRefId.value);
   updateDoc(userRef, {
-    Points: UserPointsOnline.value + points.value,
+    points: UserPointsOnline.value + points.value,
   });
   router.push("/skattejagt/kort");
 };
