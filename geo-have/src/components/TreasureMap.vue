@@ -2,15 +2,15 @@
   <!-- Map container with map and info box -->
   <div class="map-container">
     <div class="points-counter">
-        <confettiExplosion class="confetti" v-if="maxPointsReached" />
-        <div class="circle" :class="{ 'pop-out': maxPointsReached }">
-          <span class="points">  {{ UserPointsOnline }} Point</span>
-        </div>
+      <confettiExplosion class="confetti" v-if="maxPointsReached" />
+      <div class="circle" :class="{ 'pop-out': maxPointsReached }">
+        <span class="points"> {{ UserPointsOnline }} Point</span>
       </div>
+    </div>
     <div id="map" class="map"></div>
   </div>
-  <TaskOverlay @toggleTreasureAreas="toggleTreasureAreas" />
- 
+  <TaskOverlay v-if="!showQuiz" @toggleTreasureAreas="toggleTreasureAreas" />
+  <QuizOne v-if="showQuiz" />
 </template>
 
 <script setup>
@@ -19,78 +19,61 @@ import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
-import { db } from "@/configs/firebase";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-
-const UserId = "1"; //todo: laves om til global
-const UserPointsOnline = ref(0);
-
-// Funktion til at tilføje point automatisk baseret på scrolling
-window.addEventListener('scroll', function() {
-    // Tilføj f.eks. 5 point når brugeren har rullet ned 500 pixels eller mere
-    if (window.scrollY >= 500) {
-        tilføjPointAutomatisk(5);
-    }
-});
+import QuizOne from "@/components/QuizOne.vue";
 
 // Define variables and refs
 const initialMap = ref(null);
 let arrowMarker = null;
-let treasureAreaCircle1 = null;
-let treasureAreaCircle2 = null;
-const showTreasureArea1 = ref(false);
-const showTreasureArea2 = ref(false);
+let treasureAreaCircle = null;
+const showQuiz = ref(false); // Add showQuiz ref and set it to false initially
 
+// Define treasure area coordinates
+const treasureAreaCoordinates = [55.4043, 10.37975];
+// Define the radius of the treasure area (in meters)
+const treasureAreaRadius = 20;
 
-
-// Function to toggle visibility of treasure areas
+// Function to toggle visibility of quiz and overlay
 function toggleTreasureAreas() {
-  showTreasureArea1.value = !showTreasureArea1.value;
-  if (showTreasureArea1.value) {
-    showTreasure(1);
+  // Show treasure area circle on the map
+  if (!treasureAreaCircle) {
+    treasureAreaCircle = L.circle(treasureAreaCoordinates, {
+      color: "blue",
+      fillColor: "#add8e6",
+      fillOpacity: 0.5,
+      radius: treasureAreaRadius,
+    }).addTo(initialMap.value);
+  }
+
+  // Check if the user is within the treasure area
+  const userLatLng = arrowMarker.getLatLng();
+  const distance = userLatLng.distanceTo(treasureAreaCircle.getLatLng());
+
+  if (distance <= treasureAreaRadius) {
+    // If user is within the area, show the quiz
+    showQuiz.value = true;
   } else {
-    hideTreasure(1);
+    // If user is outside the area, hide the quiz
+    showQuiz.value = false;
   }
-  console.log("Treasure areas toggled");
-}
-
-// Function to show treasure area and update its style
-function showTreasure(area) {
-  if (area === 1 && treasureAreaCircle1) {
-    treasureAreaCircle1.setStyle({ opacity: 1, fillOpacity: 0.5 });
-  } else if (area === 2 && treasureAreaCircle2) {
-    treasureAreaCircle2.setStyle({ opacity: 1, fillOpacity: 0.5 });
-  }
-}
-
-// Function to hide treasure area and update its style
-function hideTreasure(area) {
-  if (area === 1 && treasureAreaCircle1) {
-    treasureAreaCircle1.setStyle({ opacity: 0, fillOpacity: 0 });
-  } else if (area === 2 && treasureAreaCircle2) {
-    treasureAreaCircle2.setStyle({ opacity: 0, fillOpacity: 0 });
-  }
-}
-
-// Function to show next treasure area
-function showNextArea() {
-  hideTreasure(1); // Hide area 1
-  showTreasureArea2.value = true;
-  showTreasure(2); // Show area 2
 }
 
 // Perform actions when component is mounted
 onMounted(() => {
   // Initialize map
-  initialMap.value = L.map("map").setView([0, 0], 20);
+  initialMap.value = L.map("map").setView(treasureAreaCoordinates, 17);
 
   // Add tile layer to map
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+  }).addTo(initialMap.value);
+
+  // Add arrow marker
+  arrowMarker = L.marker(treasureAreaCoordinates, {
+    icon: L.icon({
+      iconUrl: arrowIconUrl,
+      iconSize: [30, 30],
+    }),
   }).addTo(initialMap.value);
 
   // Check geolocation support and watch position
@@ -102,9 +85,7 @@ onMounted(() => {
         const { latitude, longitude } = position.coords;
 
         // Update arrow marker position
-        if (!arrowMarker) {
-          createArrowMarker([latitude, longitude]);
-        } else {
+        if (arrowMarker) {
           arrowMarker.setLatLng([latitude, longitude]);
         }
 
@@ -112,19 +93,6 @@ onMounted(() => {
         if (isFirstRender) {
           isFirstRender = false;
           initialMap.value.panTo([latitude, longitude]);
-        }
-
-        // Set treasure area positions
-        if (treasureAreaCircle1) {
-          treasureAreaCircle1.setLatLng([55.4043, 10.37975]);
-        } else {
-          createTreasureArea1([55.4043, 10.37975]);
-        }
-
-        if (treasureAreaCircle2) {
-          treasureAreaCircle2.setLatLng([55.40328, 10.3784]);
-        } else {
-          createTreasureArea2([55.40328, 10.3784]);
         }
       },
       (error) => {
@@ -174,7 +142,7 @@ onMounted(() => {
   }
 });
 
-onMounted(async() => {
+onMounted(async () => {
   const querySnapshotUserPoints = await getDocs(collection(db, "User"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
@@ -183,7 +151,6 @@ onMounted(async() => {
     }
   });
 });
-
 </script>
 
 <style scoped>
@@ -239,10 +206,8 @@ button {
   align-items: center;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
   left: 75%;
-
 }
 .circle span {
   transition: 0.5s ease-in-out;
 }
-
 </style>
