@@ -1,11 +1,8 @@
 <template>
   <!-- Map container with map and info box -->
   <div class="map-container">
-    <div class="points-counter">
-      <confettiExplosion class="confetti" v-if="maxPointsReached" />
-      <div class="circle" :class="{ 'pop-out': maxPointsReached }">
-        <span class="points"> {{ UserPointsOnline }} Point</span>
-      </div>
+    <div class="circle">
+      <span class="points"> {{ UserPointsOnline }} Point</span>
     </div>
     <div id="map" class="map"></div>
   </div>
@@ -20,6 +17,19 @@ import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
 import QuizOne from "@/components/QuizOne.vue";
+import { db } from "@/configs/firebase";
+import { collection, getDocs } from "firebase/firestore";
+
+const UserId = "1"; //todo: laves om til global
+const UserPointsOnline = ref(0);
+
+// Funktion til at tilføje point automatisk baseret på scrolling
+window.addEventListener("scroll", function () {
+  // Tilføj f.eks. 5 point når brugeren har rullet ned 500 pixels eller mere
+  if (window.scrollY >= 500) {
+    tilføjPointAutomatisk(5);
+  }
+});
 
 // Define variables and refs
 const initialMap = ref(null);
@@ -103,53 +113,15 @@ onMounted(() => {
     console.error("Geolocation is not supported by your browser");
   }
 
-  // Function to create arrow marker
-  function createArrowMarker(coordinates) {
-    arrowMarker = L.marker(coordinates, {
-      icon: L.icon({
-        iconUrl: arrowIconUrl,
-        iconSize: [30, 30],
-      }),
-    }).addTo(initialMap.value);
-  }
-
-  // Function to create treasure area 1
-  function createTreasureArea1(coordinates) {
-    treasureAreaCircle1 = L.circle(coordinates, {
-      color: "blue",
-      fillColor: "#add8e6",
-      fillOpacity: 0.5,
-      radius: 20,
-    }).addTo(initialMap.value);
-    treasureAreaCircle1.bindPopup("Treasure area 1!", {
-      className: "popup-style",
+  (async () => {
+    const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+    querySnapshotUserPoints.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+      if (doc.id === UserId) {
+        UserPointsOnline.value = doc.data().Points;
+      }
     });
-    hideTreasure(1);
-  }
-
-  // Function to create treasure area 2
-  function createTreasureArea2(coordinates) {
-    treasureAreaCircle2 = L.circle(coordinates, {
-      color: "green",
-      fillColor: "#90EE90",
-      fillOpacity: 0.5,
-      radius: 20,
-    }).addTo(initialMap.value);
-    treasureAreaCircle2.bindPopup("Treasure area 2!", {
-      className: "popup-style",
-    });
-    hideTreasure(2);
-  }
-});
-
-onMounted(async () => {
-  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
-  querySnapshotUserPoints.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-    if (doc.id === UserId) {
-      UserPointsOnline.value = doc.data().Points;
-    }
-  });
+  })(); // Immediately invoke the async function
 });
 </script>
 
