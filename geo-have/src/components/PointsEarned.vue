@@ -2,8 +2,23 @@
 import router from "@/router";
 import { ref, onMounted, watch } from "vue";
 import ConfettiExplosion from "vue-confetti-explosion";
+import { db } from "@/configs/firebase";
+import {
+  collection,
+  updateDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
+import { async } from "@firebase/util";
+
+const UserId = "1"; //todo: laves om til global
+const UserPointsOnline = ref(300);
 
 const goToNextTask = () => {
+  const userRef = doc(db, "User", UserId);
+    updateDoc(userRef, {
+      Points: UserPointsOnline.value + points.value,
+    });
   router.push("/skattejagt/kort");
 };
 
@@ -26,6 +41,16 @@ const updatePoints = async () => {
 onMounted(() => {
   // Start the animation
   updatePoints();
+});
+
+onMounted(async() => {
+  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+  querySnapshotUserPoints.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    if (doc.id === UserId) {
+      UserPointsOnline.value = doc.data().Points;
+    }
+  });
 });
 
 const maxPointsReached = ref(false);
