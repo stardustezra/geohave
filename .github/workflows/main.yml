@@ -15,10 +15,12 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'
+        node-version: '20'  # Adjust the Node.js version to your requirement
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
+        npm install vite-plugin-pwa --save-dev  # Install vite-plugin-pwa
       working-directory: ./geo-have  # Adjust the path to the correct directory
 
     - name: Run tests
