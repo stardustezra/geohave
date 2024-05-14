@@ -4,7 +4,7 @@
     <div class="points-counter">
         <confettiExplosion class="confetti" v-if="maxPointsReached" />
         <div class="circle" :class="{ 'pop-out': maxPointsReached }">
-          <span class="points">  {{ points }} Point</span>
+          <span class="points">  {{ UserPointsOnline }} Point</span>
         </div>
       </div>
     <div id="map" class="map"></div>
@@ -20,8 +20,13 @@ import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
 import TaskOverlay from "@/components/TaskOverlay.vue";
 import { db } from "@/configs/firebase";
+import {
+  collection,
+  getDocs,
+} from "firebase/firestore";
 
-const points = ref(20);
+const UserId = "1"; //todo: laves om til global
+const UserPointsOnline = ref(0);
 
 // Funktion til at tilføje point automatisk baseret på scrolling
 window.addEventListener('scroll', function() {
@@ -30,13 +35,6 @@ window.addEventListener('scroll', function() {
         tilføjPointAutomatisk(5);
     }
 });
-
-// Funktion til at tilføje point automatisk
-function tilføjPointAutomatisk(amount) {
-    points += amount;
-    pointCounter.textContent = points;
-}
-
 
 // Define variables and refs
 const initialMap = ref(null);
@@ -176,6 +174,15 @@ onMounted(() => {
   }
 });
 
+onMounted(async() => {
+  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+  querySnapshotUserPoints.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    if (doc.id === UserId) {
+      UserPointsOnline.value = doc.data().Points;
+    }
+  });
+});
 
 </script>
 
@@ -226,7 +233,7 @@ button {
   background-color: var(--primary-yellow);
   color: black;
   font-size: 14px;
-  z-index: 5;
+  z-index: 401;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -235,7 +242,6 @@ button {
 
 }
 .circle span {
-  z-index: 5;
   transition: 0.5s ease-in-out;
 }
 
