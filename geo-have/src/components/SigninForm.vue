@@ -148,10 +148,10 @@ hr {
   margin-bottom: 20px;
 }
 
-/* Responsive styling */
+/* Responsive styling
 @media screen and (max-width: 767) {
   .wrapper.signup-form {
     width: 90%;
   }
-}
+}*/
 </style>

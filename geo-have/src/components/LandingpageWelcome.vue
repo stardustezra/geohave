@@ -44,6 +44,7 @@
     justify-content: center;
     align-items: center;
     height: 225px;
+    overflow-x: hidden;
 }
   
 .LandingpageButtons {

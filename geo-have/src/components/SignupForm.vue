@@ -83,10 +83,10 @@ p {
   color: var(--btn-soft-red);
 }
 
-/* Responsive styling */
+/* Responsive styling 
 @media screen and (max-width: 767) {
   .wrapper.signup-form {
     width: 90%;
   }
-}
+}*/
 </style>
