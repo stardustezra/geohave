@@ -16,7 +16,7 @@ const signInAnonymously = async () => {
     const { uid } = userCredential.user;
 
     // add the anon user to Firestore
-    const userRef = collection(db, "users");
+    const userRef = collection(db, "User");
     await addDoc(userRef, {
       uid: uid,
       // You can add more fields if needed

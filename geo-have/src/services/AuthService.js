@@ -77,7 +77,7 @@ export const signUp = async (email, password) => {
 // Function to add user data to Firestore
 const addUserToFirestore = async (uid, email) => {
   try {
-    const userRef = collection(db, "users");
+    const userRef = collection(db, "user");
     await addDoc(userRef, {
       uid: uid,
       email: email,

@@ -5,11 +5,12 @@ import ConfettiExplosion from "vue-confetti-explosion";
 import { db } from "@/configs/firebase";
 import { collection, updateDoc, doc, getDocs } from "firebase/firestore";
 
-const UserId = "1"; //todo: laves om til global
-const UserPointsOnline = ref(300);
+const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
+const UserInfoRefId = ref("");
+const UserPointsOnline = ref(0);
 
 const goToNextTask = () => {
-  const userRef = doc(db, "users", UserId);
+  const userRef = doc(db, "User", UserInfoRefId);
   updateDoc(userRef, {
     Points: UserPointsOnline.value + points.value,
   });
@@ -38,11 +39,12 @@ onMounted(() => {
 });
 
 onMounted(async () => {
-  const querySnapshotUserPoints = await getDocs(collection(db, "users"));
+  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
-    if (doc.id === UserId) {
-      UserPointsOnline.value = doc.data().Points;
+    if (doc.data().uid === UserId) {
+      UserInfoRefId.value = doc.id;
+      UserPointsOnline.value = doc.data().points;
     }
   });
 });

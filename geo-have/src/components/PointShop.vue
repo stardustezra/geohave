@@ -97,46 +97,76 @@ const PointShopItemsOnline = ref([
 ]);
 const PointShopTransactionsOnline = ref([]);
 const UserPointsOnline = ref(0);
-const UserId = ref(null);
+const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
+const UserInfoRefId = ref("");
 
 onMounted(async () => {
-  const auth = getAuth();
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      UserId.value = user.uid;
 
-      const querySnapshotPointShopItem = await getDocs(
-        collection(db, "PointShopItem")
-      );
-      PointShopItemsOnline.value = [];
-      querySnapshotPointShopItem.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
-        const item = doc.data();
-        item.id = doc.id;
-        PointShopItemsOnline.value.push(item);
-      });
-
-      // Fetch single user document
-      const userDocRef = doc(db, "users", UserId.value);
-      const userDoc = await getDoc(userDocRef); // Use getDoc for a single document
-      if (userDoc.exists()) {
-        UserPointsOnline.value = userDoc.data().Points;
-      }
-
-      const querySnapshotPointShopTransactions = await getDocs(
-        collection(db, "UserPointShopTransaction")
-      );
-      querySnapshotPointShopTransactions.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
-        if (doc.data().UserId === UserId.value) {
-          PointShopTransactionsOnline.value.push(doc.data());
-        }
-      });
-    } else {
-      // No user is signed in.
-      // You can redirect the user to the login page or show a message.
+  const querySnapshotPointShopItem = await getDocs(
+    collection(db, "PointShopItem")
+  );
+  PointShopItemsOnline.value = [];
+  querySnapshotPointShopItem.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    const item = doc.data();
+    item.id = doc.id;
+    PointShopItemsOnline.value.push(item);
+  });
+  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+  querySnapshotUserPoints.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    if (doc.data().uid === UserId) {
+      UserPointsOnline.value = doc.data().points;
+      UserInfoRefId.value = doc.id;
     }
   });
+  const querySnapshotPointShopTransactions = await getDocs(
+    collection(db, "UserPointShopTransaction")
+  );
+  querySnapshotPointShopTransactions.forEach((doc) => {
+    console.log(doc.id, "=>", doc.data());
+    if (doc.data().UserId === UserId) {
+      PointShopTransactionsOnline.value.push(doc.data());
+    }
+  });
+  // //old
+  // const auth = getAuth();
+  // onAuthStateChanged(auth, async (user) => {
+  //   if (user) {
+  //     UserId.value = user.uid;
+
+  //     const querySnapshotPointShopItem = await getDocs(
+  //       collection(db, "PointShopItem")
+  //     );
+  //     PointShopItemsOnline.value = [];
+  //     querySnapshotPointShopItem.forEach((doc) => {
+  //       console.log(doc.id, "=>", doc.data());
+  //       const item = doc.data();
+  //       item.id = doc.id;
+  //       PointShopItemsOnline.value.push(item);
+  //     });
+
+  //     // Fetch single user document
+  //     const userDocRef = doc(db, "User", UserId.value);
+  //     const userDoc = await getDoc(userDocRef); // Use getDoc for a single document
+  //     if (userDoc.exists()) {
+  //       UserPointsOnline.value = userDoc.data().Points;
+  //     }
+
+  //     const querySnapshotPointShopTransactions = await getDocs(
+  //       collection(db, "UserPointShopTransaction")
+  //     );
+  //     querySnapshotPointShopTransactions.forEach((doc) => {
+  //       console.log(doc.id, "=>", doc.data());
+  //       if (doc.data().UserId === UserId.value) {
+  //         PointShopTransactionsOnline.value.push(doc.data());
+  //       }
+  //     });
+  //   } else {
+  //     // No user is signed in.
+  //     // You can redirect the user to the login page or show a message.
+  //   }
+  // });
 });
 
 const displayPopup = ref(false);
@@ -154,18 +184,18 @@ function makeTransaction(pointShopItemId, cost, max) {
   ) {
     UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    const userRef = doc(db, "users", UserId.value);
+    const userRef = doc(db, "User", UserInfoRefId);
     updateDoc(userRef, {
       Points: UserPointsOnline.value,
     });
 
     PointShopTransactionsOnline.value.push({
-      userId: UserId.value,
+      userId: UserId,
       pointShopItemId: pointShopItemId,
     });
     addDoc(collection(db, "UserPointShopTransaction"), {
       PointShopItemId: pointShopItemId,
-      UserId: UserId.value,
+      UserId: UserId,
     });
 
     // Assuming you have a router set up and imported correctly.

@@ -20,7 +20,7 @@ import QuizOne from "@/components/QuizOne.vue";
 import { db } from "@/configs/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-const UserId = "1"; //todo: laves om til global
+const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
 const UserPointsOnline = ref(0);
 
 // Funktion til at tilføje point automatisk baseret på scrolling
@@ -117,8 +117,8 @@ onMounted(() => {
     const querySnapshotUserPoints = await getDocs(collection(db, "User"));
     querySnapshotUserPoints.forEach((doc) => {
       console.log(doc.id, "=>", doc.data());
-      if (doc.id === UserId) {
-        UserPointsOnline.value = doc.data().Points;
+      if (doc.data().uid === UserId) {
+        UserPointsOnline.value = doc.data().points;
       }
     });
   })(); // Immediately invoke the async function
