@@ -3,22 +3,16 @@ import router from "@/router";
 import { ref, onMounted, watch } from "vue";
 import ConfettiExplosion from "vue-confetti-explosion";
 import { db } from "@/configs/firebase";
-import {
-  collection,
-  updateDoc,
-  doc,
-  getDocs,
-} from "firebase/firestore";
-import { async } from "@firebase/util";
+import { collection, updateDoc, doc, getDocs } from "firebase/firestore";
 
 const UserId = "1"; //todo: laves om til global
 const UserPointsOnline = ref(300);
 
 const goToNextTask = () => {
-  const userRef = doc(db, "User", UserId);
-    updateDoc(userRef, {
-      Points: UserPointsOnline.value + points.value,
-    });
+  const userRef = doc(db, "users", UserId);
+  updateDoc(userRef, {
+    Points: UserPointsOnline.value + points.value,
+  });
   router.push("/skattejagt/kort");
 };
 
@@ -43,8 +37,8 @@ onMounted(() => {
   updatePoints();
 });
 
-onMounted(async() => {
-  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+onMounted(async () => {
+  const querySnapshotUserPoints = await getDocs(collection(db, "users"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
     if (doc.id === UserId) {

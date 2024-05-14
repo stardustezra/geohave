@@ -60,13 +60,12 @@ import {
   addDoc,
   updateDoc,
   doc,
+  getDoc, // Change this from getDocs to getDoc for single document retrieval
   getDocs,
 } from "firebase/firestore";
-// import router from "@/router";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const UserId = "1"; //todo: laves om til global
 const PointShopItemsOnline = ref([
-  //_
   {
     id: null,
     cost: 20,
@@ -95,36 +94,47 @@ const PointShopItemsOnline = ref([
     text: "Gratis billet til Legoland",
     max: 1,
   },
-  //-
 ]);
 const PointShopTransactionsOnline = ref([]);
 const UserPointsOnline = ref(0);
+const UserId = ref(null);
 
 onMounted(async () => {
-  const querySnapshotPointShopItem = await getDocs(
-    collection(db, "PointShopItem")
-  );
-  PointShopItemsOnline.value = [];
-  querySnapshotPointShopItem.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-    const item = doc.data();
-    item.id = doc.id;
-    PointShopItemsOnline.value.push(item);
-  });
-  const querySnapshotUserPoints = await getDocs(collection(db, "users"));
-  querySnapshotUserPoints.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-    if (doc.id === UserId) {
-      UserPointsOnline.value = doc.data().Points;
-    }
-  });
-  const querySnapshotPointShopTransactions = await getDocs(
-    collection(db, "UserPointShopTransaction")
-  );
-  querySnapshotPointShopTransactions.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-    if (doc.data().UserId === UserId) {
-      PointShopTransactionsOnline.value.push(doc.data());
+  const auth = getAuth();
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      UserId.value = user.uid;
+
+      const querySnapshotPointShopItem = await getDocs(
+        collection(db, "PointShopItem")
+      );
+      PointShopItemsOnline.value = [];
+      querySnapshotPointShopItem.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data());
+        const item = doc.data();
+        item.id = doc.id;
+        PointShopItemsOnline.value.push(item);
+      });
+
+      // Fetch single user document
+      const userDocRef = doc(db, "users", UserId.value);
+      const userDoc = await getDoc(userDocRef); // Use getDoc for a single document
+      if (userDoc.exists()) {
+        UserPointsOnline.value = userDoc.data().Points;
+      }
+
+      const querySnapshotPointShopTransactions = await getDocs(
+        collection(db, "UserPointShopTransaction")
+      );
+      querySnapshotPointShopTransactions.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data());
+        if (doc.data().UserId === UserId.value) {
+          PointShopTransactionsOnline.value.push(doc.data());
+        }
+      });
+    } else {
+      // No user is signed in.
+      // You can redirect the user to the login page or show a message.
     }
   });
 });
@@ -132,11 +142,9 @@ onMounted(async () => {
 const displayPopup = ref(false);
 
 function makeTransaction(pointShopItemId, cost, max) {
-  //-
   if (pointShopItemId === null) {
     return;
   }
-  //-
 
   if (
     UserPointsOnline.value > cost &&
@@ -146,21 +154,22 @@ function makeTransaction(pointShopItemId, cost, max) {
   ) {
     UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    const userRef = doc(db, "users", UserId);
+    const userRef = doc(db, "users", UserId.value);
     updateDoc(userRef, {
       Points: UserPointsOnline.value,
     });
 
     PointShopTransactionsOnline.value.push({
-      userId: UserId,
+      userId: UserId.value,
       pointShopItemId: pointShopItemId,
     });
     addDoc(collection(db, "UserPointShopTransaction"), {
       PointShopItemId: pointShopItemId,
-      UserId: UserId,
+      UserId: UserId.value,
     });
 
-    router.push({ name: "Collect", query: { rewardId: pointShopItemId } });
+    // Assuming you have a router set up and imported correctly.
+    // router.push({ name: "Collect", query: { rewardId: pointShopItemId } });
   } else {
     displayPopup.value = true;
   }
