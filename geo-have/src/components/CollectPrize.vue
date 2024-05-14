@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-for="prize in redemptionOptions" :key="prize.id">
+      <h3>{{ prize.name }}</h3>
+      <p>{{ prize.description }}</p>
+    </div>
+  </div>
+  <div>
     <div class="backtostart-button" @click="goToHome">
       <img
         src="../assets/icons/back-button.png"
@@ -18,8 +24,7 @@
     <div class="expiring-date">
       <p class="expiring-text">Udløber: 31/08/24</p>
       <p class="congrats-text">
-        Tillykke! Du har vundet en gratis sodavand! Du kan indløse din præmie
-        ved at vise denne besked til personalet i cafeen.
+        {{ redemptionOptions[rewardId - 1] }}
       </p>
     </div>
     <div class="qr-container">
@@ -30,12 +35,25 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+
+const queryParams = new URLSearchParams(window.location.search);
+// Accessing query parameter named 'paramName' as a number
+const idInQuery = parseInt(queryParams.get("rewardId"));
+const rewardId = ref(isNaN(idInQuery) ? 0 : idInQuery);
 
 const router = useRouter();
 
 const goToHome = () => {
   router.push({ name: "home" });
 };
+
+const redemptionOptions = [
+  " Tillykke! Du har vundet en gratis sodavand! Du kan indløse din præmie ved at vise denne besked til personalet i cafeen",
+  "Tillykke! Du har vundet en gratis desssert! Du kan indløse din præmie ved at vise denne besked til personalet i cafeen",
+  "Tillykke! Du har vundet en 50% på næste besøg! Du kan indløse din præmie ved at vise denne besked til personalet i cafeen",
+  "Tillykke! Du har vundet en gratis billet til Legoland! Du kan indløse din præmie ved at vise denne besked til personalet i cafeen",
+];
 </script>
 
 <style scoped>
