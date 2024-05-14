@@ -4,13 +4,14 @@ import { ref, onMounted, watch } from "vue";
 import ConfettiExplosion from "vue-confetti-explosion";
 import { db } from "@/configs/firebase";
 import { collection, updateDoc, doc, getDocs } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
+const UserId = ref("");
 const UserInfoRefId = ref("");
 const UserPointsOnline = ref(0);
 
 const goToNextTask = () => {
-  const userRef = doc(db, "User", UserInfoRefId);
+  const userRef = doc(db, "User", UserInfoRefId.value);
   updateDoc(userRef, {
     Points: UserPointsOnline.value + points.value,
   });
@@ -36,17 +37,27 @@ const updatePoints = async () => {
 onMounted(() => {
   // Start the animation
   updatePoints();
-});
-
-onMounted(async () => {
-  const querySnapshotUserPoints = await getDocs(collection(db, "User"));
-  querySnapshotUserPoints.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-    if (doc.data().uid === UserId) {
-      UserInfoRefId.value = doc.id;
-      UserPointsOnline.value = doc.data().points;
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      UserId.value = user.uid;
+    } else {
+      // No user is signed in
+      UserId.value = null;
     }
   });
+
+  (async () => {
+    const querySnapshotUserPoints = await getDocs(collection(db, "User"));
+    querySnapshotUserPoints.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+      if (doc.data().uid === UserId.value) {
+        UserInfoRefId.value = doc.id;
+        UserPointsOnline.value = doc.data().points;
+      }
+    });
+  })(); // Immediately invoke the async function
 });
 
 const maxPointsReached = ref(false);

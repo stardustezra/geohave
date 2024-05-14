@@ -97,10 +97,20 @@ const PointShopItemsOnline = ref([
 ]);
 const PointShopTransactionsOnline = ref([]);
 const UserPointsOnline = ref(0);
-const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
+const UserId = ref("");
 const UserInfoRefId = ref("");
 
 onMounted(async () => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      UserId.value = user.uid;
+    } else {
+      // No user is signed in
+      UserId.value = null;
+    }
+  });
 
   const querySnapshotPointShopItem = await getDocs(
     collection(db, "PointShopItem")
@@ -115,9 +125,9 @@ onMounted(async () => {
   const querySnapshotUserPoints = await getDocs(collection(db, "User"));
   querySnapshotUserPoints.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
-    if (doc.data().uid === UserId) {
-      UserPointsOnline.value = doc.data().points;
+    if (doc.data().uid === UserId.value) {
       UserInfoRefId.value = doc.id;
+      UserPointsOnline.value = doc.data().points;
     }
   });
   const querySnapshotPointShopTransactions = await getDocs(
@@ -125,7 +135,7 @@ onMounted(async () => {
   );
   querySnapshotPointShopTransactions.forEach((doc) => {
     console.log(doc.id, "=>", doc.data());
-    if (doc.data().UserId === UserId) {
+    if (doc.data().UserId === UserId.value) {
       PointShopTransactionsOnline.value.push(doc.data());
     }
   });
@@ -184,18 +194,18 @@ function makeTransaction(pointShopItemId, cost, max) {
   ) {
     UserPointsOnline.value = UserPointsOnline.value - cost;
 
-    const userRef = doc(db, "User", UserInfoRefId);
+    const userRef = doc(db, "User", UserInfoRefId.value);
     updateDoc(userRef, {
       Points: UserPointsOnline.value,
     });
 
     PointShopTransactionsOnline.value.push({
-      userId: UserId,
+      userId: UserId.value,
       pointShopItemId: pointShopItemId,
     });
     addDoc(collection(db, "UserPointShopTransaction"), {
       PointShopItemId: pointShopItemId,
-      UserId: UserId,
+      UserId: UserId.value,
     });
 
     // Assuming you have a router set up and imported correctly.

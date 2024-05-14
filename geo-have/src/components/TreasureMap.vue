@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import arrowIconUrl from "@/assets/icons/arrow.png";
@@ -19,8 +19,9 @@ import TaskOverlay from "@/components/TaskOverlay.vue";
 import QuizOne from "@/components/QuizOne.vue";
 import { db } from "@/configs/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const UserId = "mEtSdqN5wGPjkhwlEctfwvzZI7n1"; //todo: laves om til global
+const UserId = ref(""); //todo: laves om til global
 const UserPointsOnline = ref(0);
 
 // Funktion til at tilføje point automatisk baseret på scrolling
@@ -69,6 +70,17 @@ function toggleTreasureAreas() {
 
 // Perform actions when component is mounted
 onMounted(() => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      UserId.value = user.uid;
+    } else {
+      // No user is signed in
+      UserId.value = null;
+    }
+  });
+
   // Initialize map
   initialMap.value = L.map("map").setView(treasureAreaCoordinates, 17);
 
@@ -117,12 +129,14 @@ onMounted(() => {
     const querySnapshotUserPoints = await getDocs(collection(db, "User"));
     querySnapshotUserPoints.forEach((doc) => {
       console.log(doc.id, "=>", doc.data());
-      if (doc.data().uid === UserId) {
+      if (doc.data().uid === UserId.value) {
         UserPointsOnline.value = doc.data().points;
       }
     });
   })(); // Immediately invoke the async function
 });
+
+onUnmounted
 </script>
 
 <style scoped>
