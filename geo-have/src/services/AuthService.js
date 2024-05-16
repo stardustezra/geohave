@@ -121,7 +121,6 @@ export const signInWithGoogle = () => {
     .catch((error) => {
       console.log(error);
     });
-  console.log("Sign in with Google");
 };
 
 // sign in with facebook
@@ -137,5 +136,4 @@ export const signInWithFacebook = () => {
     .catch((error) => {
       console.log(error);
     });
-  console.log("Sign in with Facebook");
 };

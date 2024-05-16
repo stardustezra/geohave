@@ -25,18 +25,18 @@
         <span></span>
       </div>
       <ul class="dropdown-menu" v-if="isOpen">
-        <li v-if="!authenticated">
-          <router-link to="/signup">Registrer</router-link>
-        </li>
-        <li v-if="!authenticated">
-          <router-link to="/signin">Log ind</router-link>
-        </li>
-        <li>
-          <router-link to="/pointshop">Point Shop</router-link>
-        </li>
-        <li>
-          <router-link to="/skattejagt">Skattejagt</router-link>
-        </li>
+        <router-link v-if="!authenticated" to="/signup">
+          <li>Registrer</li>
+        </router-link>
+        <router-link v-if="!authenticated" to="/signin">
+          <li>Log ind</li>
+        </router-link>
+        <router-link to="/pointshop">
+          <li>Point Shop</li>
+        </router-link>
+        <router-link to="/skattejagt">
+          <li>Skattejagt</li>
+        </router-link>
         <li v-if="authenticated" @click="signOut">Log ud</li>
       </ul>
     </nav>
@@ -52,10 +52,8 @@ const authenticated = ref(false);
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
-  console.log("Toggle menu function called. isOpen:", isOpen.value);
 };
 
-import Search from "../assets/icons/Search_White.png";
 import Ticket from "../assets/icons/billet.png";
 import Geoh from "../assets/icons/Geoh.png";
 
@@ -176,16 +174,19 @@ nav {
 .dropdown-menu li {
   padding: 10px 20px;
   transition: background-color 0.3s;
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
 }
 
-.dropdown-menu li a {
-  color: #000;
-  text-decoration: none;
+.dropdown-menu li:hover
+.dropdown-menu li:active {
+  background-color: #EEE6D1;
+  transition: 0.1s;
 }
 
-.dropdown-menu li:hover {
-  background-color: red;
-}
 
 /* Initial state of the spans */
 .nav-icon span:nth-child(1) {

@@ -1,26 +1,32 @@
 <template>
-  <div class="wrapper">
-    <h2>Registrer</h2>
-    <p>Registrer for at begynde skattejagten</p>
-    <form @submit.prevent="onSubmitForm" class="signup-form">
-      <div class="form-group">
-        <input
-          type="email"
-          v-model="email"
-          id="email"
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          v-model="password"
-          id="password"
-          placeholder="Password"
-          required
-        />
+  <div class="page-container">
+    <div class="wrapper">
+      <div class="top-section">
+        <h2>Registrer</h2>
+        <p>Registrer for at begynde skattejagten</p>
       </div>
-      <button type="submit">Registrer</button>
-    </form>
+      <form @submit.prevent="onSubmitForm" class="signup-form">
+        <div class="form-container">
+          <p>Email</p>
+          <input
+            type="email"
+            v-model="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
+          <p>Password</p>
+          <input
+            type="password"
+            v-model="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit">Registrer</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -36,40 +42,66 @@ const onSubmitForm = () => {
 </script>
 
 <style scoped>
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   padding: 2em;
-}
-
-h2 {
-  align-items: left;
-  font-weight: bold;
+  width: 100%;
+  max-width: 400px;
 }
 
 .signup-form {
-  width: 300px;
-  margin-right: auto;
   align-items: center;
 }
 
-.form-group {
+.top-section {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: left;
+  margin-bottom: 35px;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+}
+p {
+  font-size: 20px;
+}
+
+.form-container {
   margin-bottom: 15px;
+  font-weight: bold;
 }
 
 input[type="email"],
-input[type="password"],
-button {
+input[type="password"] {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   margin-top: 5px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  background-color: var(--soft-gray);
+  color: var(--btn-on-click-grey);
 }
 
 button {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 9px;
+  border: 1px solid #ccc;
   background-color: var(--btn-soft-green);
   color: white;
   font-weight: bold;
@@ -78,15 +110,4 @@ button {
 button:hover {
   background-color: var(--btn-on-click-green);
 }
-
-p {
-  color: var(--btn-soft-red);
-}
-
-/* Responsive styling 
-@media screen and (max-width: 767) {
-  .wrapper.signup-form {
-    width: 90%;
-  }
-}*/
 </style>

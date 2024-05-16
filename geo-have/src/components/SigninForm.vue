@@ -1,43 +1,44 @@
 <template>
-  <div class="wrapper">
-    <h2>Log ind</h2>
-    <p>For at begynde skattejagten</p>
-    <form @submit.prevent="onSubmitForm" class="signin-form">
-      <div class="form-group">
-        <input
-          type="email"
-          v-model="email"
-          id="email"
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          v-model="password"
-          id="password"
-          placeholder="Password"
-          required
-        />
+  <div class="page-container">
+    <div class="wrapper">
+      <div class="top-section">
+        <h2>Log ind</h2>
+        <p>For at begynde skattejagten</p>
       </div>
-      <button type="submit">Log ind</button>
-    </form>
-    <p v-if="errMsg" class="error-message">{{ errMsg }}</p>
-    <div class="links-section">
-      <p class="signup-link">
-        <router-link to="/signup">Opret konto</router-link>
-      </p>
-      <p class="guest-link">
-        <router-link to="/skattejagt" @click="handleContinueAsGuest">Fortsæt som gæst</router-link>
-      </p>
-    </div>
-    <hr />
-    <div class="socials-signin">
-      <p>Log ind med</p>
-      <div class="socials-icons">
-        <p><button @click="signInWithGoogle">Log ind med Google</button></p>
-        <p><button @click="signInWithFacebook">Log ind med Facebook</button></p>
-        <img src="../assets/icons/facebook.svg" alt="Facebook" />
-        <img src="../assets/icons/google.svg" alt="Google" />
+      <form @submit.prevent="onSubmitForm" class="signin-form">
+        <div class="form-container">
+          <p>Email</p>
+          <input
+            type="email"
+            v-model="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
+          <p>Password</p>
+          <input
+            type="password"
+            v-model="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit">Log ind</button>
+      </form>
+      <p v-if="errMsg" class="error-message">{{ errMsg }}</p>
+      <div class="links-section">
+        <p class="signup-link">
+          <router-link to="/signup">Opret konto</router-link>
+        </p>
+        <p class="guest-link">
+          <router-link to="/skattejagt" @click="handleContinueAsGuest">Fortsæt som gæst</router-link>
+        </p>
+      </div>
+      <hr />
+      <div class="socials-signin">
+          <p><button @click="signInWithGoogle">Log ind med Google</button></p>
+          <p><button @click="signInWithFacebook">Log ind med Facebook</button></p>
       </div>
     </div>
   </div>
@@ -70,41 +71,63 @@ const handleContinueAsGuest = async () => {
 
 
 <style scoped>
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   padding: 2em;
-  justify-content: center;
+  width: 100%;
+  max-width: 400px;
 }
 
 .signin-form {
-  width: 300px;
-  margin-right: auto;
   align-items: center;
 }
 
-h2 {
+.top-section {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
   align-items: left;
+  margin-bottom: 35px;
+}
+
+h2 {
+  font-size: 40px;
   font-weight: bold;
 }
 
-.form-group {
+.form-container {
   margin-bottom: 15px;
+  font-weight: bold;
 }
 
 input[type="email"],
-input[type="password"],
-button {
+input[type="password"] {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   margin-top: 5px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  background-color: var(--soft-gray);
+  color: var(--btn-on-click-grey);
 }
 
 button {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 9px;
+  border: 1px solid #ccc;
   background-color: var(--btn-soft-green);
   color: white;
   font-weight: bold;
@@ -115,7 +138,7 @@ button:hover {
 }
 
 p {
-  color: var(--btn-soft-red);
+  font-size: 20px;
 }
 
 .error-message {
@@ -127,6 +150,7 @@ p {
 .links-section {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -148,10 +172,10 @@ hr {
   margin-bottom: 20px;
 }
 
-/* Responsive styling
-@media screen and (max-width: 767) {
-  .wrapper.signup-form {
-    width: 90%;
-  }
-}*/
+.socials-signin button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+
 </style>

@@ -12,14 +12,12 @@ body {
   flex-direction: column;
   max-width: 100%;
   margin: 0 auto;
-  font-weight: normal;
   flex: 1;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: black;
   transition: 0.4s;
 }
 

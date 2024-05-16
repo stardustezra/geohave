@@ -47,6 +47,7 @@ const backgroundUrl = ref(cover); // Bind imported image to background URL
 .card-header h1 {
   font-family: "Kameron", serif; /* Use custom font */
   font-size: 24px; /* Set font size */
+  text-transform: uppercase;
 }
 
 .card-body {
