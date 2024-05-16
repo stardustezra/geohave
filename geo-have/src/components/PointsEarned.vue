@@ -10,12 +10,22 @@ const UserId = ref("");
 const UserInfoRefId = ref("");
 const UserPointsOnline = ref(0);
 
-const goToNextTask = () => {
-  const userRef = doc(db, "User", UserInfoRefId.value);
-  updateDoc(userRef, {
-    points: UserPointsOnline.value + points.value,
-  });
-  router.push("/skattejagt/kort");
+const goToNextTask = async () => {
+  try {
+    console.log("Navigating to next task...");
+    console.log("UserInfoRefId:", UserInfoRefId.value);
+    console.log("UserPointsOnline:", UserPointsOnline.value);
+
+    const userRef = doc(db, "User", UserInfoRefId.value);
+    await updateDoc(userRef, {
+      points: UserPointsOnline.value + points.value,
+    });
+
+    console.log("Update successful, redirecting...");
+    router.push("/skattejagt/kort");
+  } catch (error) {
+    console.error("Error updating document:", error);
+  }
 };
 
 const points = ref(0);
