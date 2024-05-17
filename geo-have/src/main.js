@@ -12,7 +12,7 @@ app.use(router);
 
 app.mount("#app");
 
-// Register the service worker for PWA
+// Register the service worker
 registerSW({ immediate: true });
 
 // PWA Installation Prompt Logic
