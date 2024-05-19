@@ -9,28 +9,34 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: "autoUpdate",
-      registerSWPrompt: true, // Enable prompting users to install PWA
+      registerSWPrompt: true,
+      includeAssets: [
+        "Icon-20x20.png",
+        "Icon-40x40.png",
+        "Icon-60x60.png",
+        "Icon-marketing-1024x1024.png",
+      ],
       manifest: {
         name: "Geografisk Have",
         description: "A treasure hunt app for the visitors to have fun with",
         icons: [
           {
-            src: "../src/assets/appicons/Icon-20x20.png",
+            src: "./src/assets/appicons/Icon-20x20.png",
             type: "image/png",
             sizes: "60x60",
           },
           {
-            src: "../src/assets/appicons/Icon-40x40.png",
+            src: "./src/assets/appicons/Icon-40x40.png",
             type: "image/png",
             sizes: "80x80",
           },
           {
-            src: "../src/assets/appicons/Icon-60x60.png",
+            src: "./src/assets/appicons/Icon-60x60.png",
             type: "image/png",
             sizes: "180x180",
           },
           {
-            src: "../src/assets/appicons/Icon-marketing-1024x1024.png",
+            src: "./src/assets/appicons/Icon-marketing-1024x1024.png",
             type: "image/png",
             sizes: "1024x1024",
           },
