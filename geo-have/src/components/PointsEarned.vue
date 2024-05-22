@@ -98,7 +98,15 @@ watch(points, () => {
         <h2>Point Optjent</h2>
       </div>
       <div class="points-counter">
-        <confettiExplosion class="confetti" v-if="maxPointsReached" />
+        <div class="confetti-container">
+          <confettiExplosion
+            :particleCount="300"
+            :force="0.5"
+            :particleSize="10"
+            class="confetti"
+            v-if="maxPointsReached"
+          />
+        </div>
         <div class="circle" :class="{ 'pop-out': maxPointsReached }">
           <span class="points">{{ points }}</span>
         </div>
@@ -115,6 +123,7 @@ watch(points, () => {
   padding: 2rem;
   height: 100vh;
   margin-top: 60px;
+  overflow: hidden; /* Ensure no overflow */
 }
 
 .container {
@@ -157,6 +166,17 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Ensure absolute positioning of confetti stays within this */
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Contain confetti explosion */
+  z-index: inherit;
 }
 
 .circle {
@@ -169,16 +189,11 @@ h2 {
   background-color: var(--primary-yellow);
   color: black;
   font-size: 24px;
-  z-index: 9999;
+  z-index: 999; /* Ensure circle is above confetti */
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
-}
-
-.confetti {
-  position: absolute;
-  z-index: -9999; /* Ensure confetti is behind the circle */
 }
 
 button {
@@ -199,7 +214,7 @@ button {
 }
 
 .circle span {
-  z-index: 9999;
+  z-index: 1;
   transition: 0.5s ease-in-out;
 }
 
