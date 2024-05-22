@@ -1,7 +1,4 @@
-# geohave
-2. sem eksamen
-
-3. # Geografisk Have
+# Geografisk Have
 En interaktiv app lavet med vue3, som skal være med til at interagere med GH besøgende og forhåbentlig hjælpe med at øge besøgstallet.
 En kort beskrivelse af dit projekt, hvad det gør og hvorfor det er nyttigt.
 
